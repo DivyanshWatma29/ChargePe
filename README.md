@@ -14,7 +14,7 @@ The product thesis is deliberately narrower than “put every charger on a map�
 **Repository:** [github.com/DivyanshWatma29/ChargePe](https://github.com/DivyanshWatma29/ChargePe)
 
 The website currently includes:
-- An interactive OpenStreetMap-based map with clearly labelled illustrative station markers.
+- An interactive map with clearly labelled illustrative sample markers, plus an optional no-key OpenStreetMap/Overpass lookup for community-mapped charging locations in Indore, Bengaluru, Pune and Hyderabad. These external records do not confirm live status or tariffs.
 - A searchable/filterable directory with connector, power, sample ₹/kWh, and report-age labels.
 - A QR camera attempt where supported, plus station-code fallback.
 - A cost estimate and simulated UPI hand-off preview; no bank app is opened and no payment is made.
@@ -69,7 +69,7 @@ Every station shown on the website is fictional sample data for demonstrating th
 ## Technical notes
 
 - Current app: static HTML, CSS and JavaScript; no package install required.
-- Map: Leaflet with OpenStreetMap tiles. Map tiles require an internet connection. The station markers remain illustrative.
+- Map: Leaflet with OpenStreetMap tiles. The default pins remain illustrative. An optional, user-triggered Overpass query can show community-mapped OSM charging locations for four cities without an API key; results may be incomplete and do not include verified live availability or tariff data. Internet access is required.
 - QR camera: depends on secure HTTPS, user permission and browser support for BarcodeDetector. Enter the demo ID when camera scanning is unavailable.
 - Chat: TARA is a local rules-based demonstration. It does not call a production AI model.
 - Payment: the UI only simulates a future hand-off. It never asks for a UPI PIN, OTP, bank password or card details.
@@ -87,7 +87,7 @@ OCPI is an established open interface for roaming between charge point operators
 
 ## Validation and integration checklist
 
-See [docs/VALIDATION.md](docs/VALIDATION.md) for the current Open Charge Map data/licensing checklist, safe Claude API integration plan, and a structured interview script for EV drivers in Indore. These are next steps; neither live OCM data nor a Claude API call is currently integrated.
+See [docs/VALIDATION.md](docs/VALIDATION.md) for the no-key OSM alternative and its limits, the optional Open Charge Map data/licensing checklist, a safe Claude API integration plan, and a structured interview script for EV drivers in Indore. The OSM lookup is implemented; operator-verified feeds, tariffs, and a Claude API call are not integrated.
 
 ## Roadmap
 
