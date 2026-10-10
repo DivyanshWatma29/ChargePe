@@ -68,7 +68,8 @@
             <div class="map-attribution">Map tiles © OpenStreetMap contributors. Station pins and names are illustrative demo records, not verified charger locations.</div>
           </div>
           <div class="station-panel">
-            <div class="card-head"><div><h3>Station directory</h3><p>Filter by city, connector or status</p></div></div>
+            <div class="card-head"><div><h3>Station directory</h3><p>Sample records plus optional community-mapped locations</p></div></div>
+            <div style="padding:13px 14px;border-bottom:1px solid var(--line);background:#f8fbf5"><button class="btn dark small" id="loadOsmStations" type="button">Load real mapped locations ↗</button><p style="margin:8px 0 0;font-size:.76rem;color:var(--muted)">Uses OpenStreetMap community data via the public Overpass service; no API key. Choose a city below first. Data may be incomplete or outdated. Price and live availability are not provided.</p><div id="osmResults" aria-live="polite"></div></div>
             <div class="filterbar">
               <input type="search" id="stationSearch" placeholder="Search area, station or operator" aria-label="Search station directory">
               <select id="cityFilter" aria-label="Filter by city"><option value="all">All demo cities</option><option>Indore</option><option>Bengaluru</option><option>Pune</option><option>Hyderabad</option></select>
@@ -143,6 +144,8 @@
       {id:"CP-610",name:"Vijay Nagar Mobility Hub",city:"Indore",area:"Vijay Nagar (demo area)",operator:"VoltWay Demo",connector:"CCS2",power:30,price:17.5,status:"working",reported:"26 min ago",minutes:26,lat:22.7533,lng:75.8937},
       {id:"CP-512",name:"Tech Park Slow Charger",city:"Hyderabad",area:"HITEC City (demo area)",operator:"GreenRoute Mobility",connector:"Type 2",power:7.4,price:14.5,status:"working",reported:"1 hour ago",minutes:60,lat:17.4435,lng:78.3772}
     ];
+    const osmBounds = {Indore:"22.58,75.75,22.88,76.02",Bengaluru:"12.80,77.40,13.15,77.82",Pune:"18.35,73.70,18.68,74.02",Hyderabad:"17.25,78.25,17.58,78.65"};
+    let osmMarkers = [], osmStations = [];
     const byId = id => stations.find(s => s.id.toLowerCase() === String(id).toLowerCase());
     const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
     const money = n => "₹" + Number(n).toFixed(2);
@@ -245,6 +248,45 @@
     document.getElementById("stationCode").addEventListener("keydown",e=>{if(e.key==="Enter")identifyStation(e.currentTarget.value,true);});
     window.addEventListener("pagehide",stopScanner);
     ["stationSearch","cityFilter","connectorFilter","statusFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="stationSearch"?"input":"change",renderStations));
+    function osmTag(tags, keys){for(const k of keys){if(tags&&tags[k])return tags[k];}return "";}
+    function clearOsmMarkers(){osmMarkers.forEach(m=>{if(map)map.removeLayer(m);});osmMarkers=[];}
+    function renderOsmResults(){
+      const el=document.getElementById("osmResults");
+      if(!osmStations.length){el.innerHTML="";return;}
+      el.innerHTML='<p style="font-size:.78rem;color:#365c3e;margin:10px 0 6px"><b>'+osmStations.length+'</b> community-mapped records returned. This is not a verified availability list.</p>'+
+        '<div style="display:grid;gap:7px;max-height:280px;overflow:auto">'+osmStations.map(s=>'<article style="border:1px solid #dce5dc;background:#fff;border-radius:11px;padding:10px;font-size:.78rem"><b>'+esc(s.name)+'</b><p style="margin:4px 0;color:#66786f">'+esc(s.operator||"Operator not listed")+' · '+esc(s.connector||"Connector not tagged")+' · '+esc(s.power||"Power not tagged")+'</p><p style="margin:4px 0;color:#66786f">Tariff: not provided by this listing · Live status: unknown</p><a href="https://www.openstreetmap.org/'+s.type+'/'+s.id+'" target="_blank" rel="noreferrer">View OSM record ↗</a></article>').join("")+'</div><p style="font-size:.7rem;color:#66786f">Source: OpenStreetMap contributors. Records may be incomplete or outdated. Verify with the operator before travelling. <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">Attribution/licence</a>.</p>';
+    }
+    async function loadOsmStations(){
+      const city=document.getElementById("cityFilter").value, el=document.getElementById("osmResults"), btn=document.getElementById("loadOsmStations");
+      if(city==="all"||!osmBounds[city]){el.innerHTML='<p style="color:#895819;font-size:.78rem">Select Indore, Bengaluru, Pune or Hyderabad in the city filter first.</p>';return;}
+      btn.disabled=true;btn.textContent="Loading community data…";el.innerHTML='<p style="font-size:.78rem;color:#66786f">Querying OpenStreetMap. The public service may be busy; please wait.</p>';
+      clearOsmMarkers();osmStations=[];
+      const q='[out:json][timeout:25];(node["amenity"="charging_station"]('+osmBounds[city]+');way["amenity"="charging_station"]('+osmBounds[city]+');relation["amenity"="charging_station"]('+osmBounds[city]+'););out center tags;';
+      try{
+        const response=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},body:"data="+encodeURIComponent(q),signal:AbortSignal.timeout(30000)});
+        if(!response.ok)throw new Error("The public mapping service returned HTTP "+response.status);
+        const data=await response.json();
+        osmStations=(data.elements||[]).map(e=>{
+          const t=e.tags||{}, lat=e.lat??e.center?.lat, lon=e.lon??e.center?.lon;
+          if(typeof lat!=="number"||typeof lon!=="number")return null;
+          const conn=[["socket:type2_combo","CCS/CCS2"],["socket:type2","Type 2"],["socket:chademo","CHAdeMO"],["socket:gb/t","GB/T"],["socket:tesla_supercharger","Tesla"]].filter(([k])=>t[k]).map(([k,v])=>v+" "+t[k]).join(", ");
+          return {id:String(e.id),type:e.type,name:osmTag(t,["name","brand","operator"])||"Unnamed mapped charging station",operator:osmTag(t,["operator","network","brand"]),connector:conn||"",power:osmTag(t,["socket:type2_combo:output","socket:type2:output","max_power","capacity"]),lat,lng:lon};
+        }).filter(Boolean);
+        if(map&&window.L){
+          osmStations.forEach(s=>{
+            const m=L.circleMarker([s.lat,s.lng],{radius:7,color:"#173f33",weight:2,fillColor:"#c0f276",fillOpacity:.95}).addTo(map);
+            m.bindPopup('<strong>'+esc(s.name)+'</strong><br>'+esc(s.operator||"Operator not listed")+'<br><b>Tariff:</b> unknown · <b>Live availability:</b> unknown<br><small>OpenStreetMap community record; verify with operator.</small><br><a href="https://www.openstreetmap.org/'+s.type+'/'+s.id+'" target="_blank" rel="noreferrer">View source record</a>');
+            osmMarkers.push(m);
+          });
+          if(osmStations.length){map.fitBounds(L.latLngBounds(osmStations.map(s=>[s.lat,s.lng])).pad(.12),{maxZoom:12});}
+        }
+        renderOsmResults();
+        if(!osmStations.length)el.innerHTML='<p style="font-size:.78rem;color:#895819">No charging-station records were returned for '+esc(city)+'. This does not mean there are no chargers; community mapping coverage may be limited.</p>';
+      }catch(err){
+        el.innerHTML='<p style="font-size:.78rem;color:#895819">Could not load community data right now. The public service may be busy, or your network may block the request. Try again later. The sample directory still works.</p>';
+      }finally{btn.disabled=false;btn.textContent="Reload mapped locations ↗";}
+    }
+    document.getElementById("loadOsmStations").addEventListener("click",loadOsmStations);
     function addBubble(text,type){
       const b=document.createElement("div");b.className="bubble "+type;b.textContent=text;
       document.getElementById("chatThread").appendChild(b);document.getElementById("chatThread").scrollTop=document.getElementById("chatThread").scrollHeight;return b;
