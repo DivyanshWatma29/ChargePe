@@ -34,9 +34,17 @@ Implementation plan:
 5. Keep sample tariffs and live charging availability separate: OCM station listings do not automatically provide live charger status, current tariffs, operator authorization, or payment capability.
 6. Only replace the corresponding fictional map markers after data coverage and terms are checked. Do not present an OCM location as currently working unless a trusted, recent source supports that claim.
 
-## 3. Claude API integration
+## 3. No-key alternative selected: local rules-based TARA
 
-Status: not implemented in this static website.
+The current TARA assistant is the zero-cost alternative for this prototype. It runs in the browser and ranks the sample records using deterministic rules; it does not need a model API key, server, or paid inference. Keep this as the default while validating the user experience.
+
+Trade-off: this is not generative AI and it only reasons over the sample station array. It cannot answer broadly, use live OSM results in chat, or reliably interpret arbitrary requests. Do not market it as a Claude-powered assistant.
+
+A browser-local model (for example WebLLM) is another possible experiment, but it requires WebGPU support and a large first model download, which makes it a poor default for a low-spec laptop/mobile audience. Defer it unless device capability and UX testing justify the cost in bandwidth and complexity.
+
+## 4. Optional Claude API integration
+
+Status: not implemented in this static website. It is optional, not a blocker for continuing the prototype.
 
 Prerequisites:
 - A Claude Console API key and confirmation of available credits/billing.
@@ -52,7 +60,7 @@ Minimal first milestone:
 
 Cost note: API usage may incur charges. Verify current Console credits and pricing before making calls; a free Console account does not guarantee free API usage.
 
-## 4. Driver interviews — 10 conversations in Indore
+## 5. Driver interviews — 10 conversations in Indore
 
 Recruit volunteers and ask for consent to record notes. Do not collect names, phone numbers, vehicle registration numbers or precise home/work addresses unless necessary and separately consented to.
 
@@ -79,11 +87,11 @@ After each interview, record:
 
 Do not fabricate responses. Summarise themes only after completing interviews. A waitlist is a separate signal and should count only real, opt-in signups.
 
-## 5. Founding team
+## 6. Founding team
 
 The user has confirmed that ChargePe is being built by Divyansh Watma and his brother. The brother's name and role have not yet been supplied. Add those details only after confirmation.
 
-## 6. Legal registration
+## 7. Legal registration
 
 ChargePe was described by its founder as not legally registered. No registration was performed by this project work. If the founders decide to formalise the business, compare current Indian incorporation/LLP requirements and costs with a qualified chartered accountant or company secretary. Do not claim registration or enter an incorporation date until it is true.
 
@@ -98,8 +106,9 @@ ChargePe was described by its founder as not legally registered. No registration
 - [ ] India/Indore OCM records checked and licensing reviewed record by record.
 - [x] Community-mapped OSM records can be loaded and displayed as distinct map markers; not an operator feed.
 - [ ] OCM/operator-backed station data and tariffs integrated.
-- [ ] Claude API key/credits verified.
-- [ ] Server-side Claude endpoint implemented and tested.
+- [x] Retained local rules-based TARA as the no-key, zero-inference-cost alternative for the prototype.
+- [ ] Optional Claude API key/credits verified if founders later decide the benefits justify the cost.
+- [ ] Optional server-side Claude endpoint implemented and tested.
 - [ ] Ten driver interviews completed and results documented.
 - [ ] Brother's name and role confirmed.
 - [ ] Founders decide whether and when to register the business.
