@@ -3,333 +3,278 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#092c25">
-  <meta name="description" content="ChargePe is an early-stage open-source EV charging platform exploring unified charger discovery, station QR workflows, reliability signals, and AI-assisted charging insights.">
-  <title>ChargePe — Unified EV Charging Platform</title>
+  <meta name="theme-color" content="#0b2d25">
+  <meta name="description" content="ChargePe is an early-stage EV charging project exploring reliability-first station discovery, transparent charging estimates, QR-based flows and AI-assisted guidance in India.">
+  <title>ChargePe</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
-    :root{--ink:#112b25;--muted:#61736c;--paper:#f5f7f3;--card:#fff;--green:#b8f36b;--deep:#092c25;--line:#dce5dd;--orange:#f7a85c;--red:#ba4b3e;--shadow:0 18px 48px rgba(9,44,37,.09)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}a{color:inherit}button,input,select{font:inherit}.wrap{width:min(1160px,calc(100% - 40px));margin:0 auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.7px;font-size:1.35rem;text-decoration:none}.brandmark{width:35px;height:35px;background:var(--green);border-radius:12px;display:grid;place-items:center;color:var(--deep);font-weight:950}.navlinks{display:flex;align-items:center;gap:25px}.navlinks a{font-size:.92rem;text-decoration:none;color:#42584f}.navlinks a:hover{color:#000}.button{border:0;border-radius:999px;padding:12px 18px;background:var(--green);font-weight:800;color:var(--deep);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .16s ease,filter .16s ease}.button:hover{transform:translateY(-1px);filter:brightness(.98)}.button.secondary{background:white;border:1px solid var(--line)}.button.dark{background:var(--deep);color:white}.hero{padding:52px 0 68px}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border:1px solid #d2e3cc;background:#eff8e7;border-radius:999px;color:#35563d;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.dot{width:8px;height:8px;background:#63ab45;border-radius:50%}h1{font-size:clamp(2.8rem,5.3vw,5.1rem);letter-spacing:-.065em;line-height:.99;margin:22px 0 22px;max-width:670px}h1 span{color:#427e46}.lead{max-width:570px;font-size:1.1rem;color:var(--muted);line-height:1.75}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 18px}.note{font-size:.82rem;color:#68796f}.hero-art{min-height:485px;border-radius:30px;background:var(--deep);padding:26px;position:relative;overflow:hidden;box-shadow:var(--shadow);color:white}.orb{position:absolute;width:300px;height:300px;border-radius:50%;background:#b8f36b;right:-100px;top:-90px;opacity:.14}.art-top{display:flex;justify-content:space-between;align-items:center;color:#d4e6dc;font-size:.84rem}.live-pill{background:#234c3d;border:1px solid #3d6856;border-radius:999px;padding:6px 9px;color:#cdf7a8;font-size:.72rem}.map-panel{position:relative;margin-top:20px;background:#12372d;border:1px solid #315347;border-radius:22px;height:280px;overflow:hidden;background-image:linear-gradient(35deg,transparent 47%,#2d5347 48%,#2d5347 49%,transparent 50%),linear-gradient(145deg,transparent 43%,#2d5347 44%,#2d5347 45%,transparent 46%),linear-gradient(90deg,transparent 64%,#2d5347 65%,#2d5347 66%,transparent 67%)}.road{position:absolute;width:130%;height:40px;border-top:3px solid #416659;border-bottom:3px solid #416659;transform:rotate(-24deg);left:-35px;top:110px}.pin{position:absolute;width:43px;height:43px;border-radius:15px 15px 15px 4px;transform:rotate(-45deg);display:grid;place-items:center;background:var(--green);color:var(--deep);font-weight:900;box-shadow:0 8px 25px #0003}.pin span{transform:rotate(45deg)}.pin.p1{left:20%;top:37%}.pin.p2{left:58%;top:18%;background:white}.pin.p3{right:12%;bottom:20%;background:var(--orange)}.map-label{position:absolute;bottom:15px;left:15px;background:#092c25e8;border:1px solid #365d50;border-radius:14px;padding:11px 13px;font-size:.8rem}.map-label strong{display:block;font-size:.92rem}.session-card{position:relative;margin:-48px 8px 0 auto;background:white;color:var(--ink);padding:15px 18px;border-radius:17px;max-width:260px;box-shadow:0 16px 32px #0002;z-index:2}.session-top{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--muted)}.session-price{font-size:1.7rem;letter-spacing:-.04em;font-weight:850;margin:3px 0}.mini-line{height:6px;background:#e8eee4;border-radius:999px;overflow:hidden}.mini-line span{display:block;background:#72b94b;width:65%;height:100%;border-radius:999px}.art-footer{display:flex;justify-content:space-between;gap:12px;margin-top:18px;font-size:.78rem;color:#c7d9ce}.art-footer b{color:white}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}.stat{padding:15px;border:1px solid #315347;border-radius:15px;background:#0f352a}.stat strong{display:block;font-size:1.05rem;color:var(--green)}.stat small{color:#c6d8cf;font-size:.75rem}.section{padding:82px 0}.section.white{background:white}.section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}.section h2{font-size:clamp(2rem,3.3vw,3.1rem);line-height:1.08;letter-spacing:-.05em;margin:10px 0 12px}.section-head p{color:var(--muted);max-width:560px;margin:0}.kicker{color:#477a42;font-size:.78rem;font-weight:850;text-transform:uppercase;letter-spacing:.12em}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:220px}.feature .icon{width:46px;height:46px;border-radius:15px;background:#e4f6d5;display:grid;place-items:center;font-size:1.4rem;margin-bottom:22px}.feature h3{margin:0 0 8px;font-size:1.13rem}.feature p{margin:0;color:var(--muted);font-size:.93rem;line-height:1.7}.demo-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:22px;align-items:start}.demo-intro{position:sticky;top:22px}.demo-intro p{color:var(--muted);line-height:1.8}.demo-card{background:white;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:24px;overflow:hidden}.demo-banner{padding:20px 22px;background:var(--deep);color:white;display:flex;justify-content:space-between;align-items:center;gap:12px}.demo-banner strong{font-size:1.05rem}.demo-banner span{font-size:.77rem;color:#d1e1d7}.demo-content{padding:20px}.fieldlabel{display:block;color:#5d7166;font-size:.8rem;font-weight:750;margin-bottom:8px}.searchrow{display:flex;gap:8px;margin-bottom:18px}.searchrow input{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fbfcf8}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 17px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;font-size:.78rem;cursor:pointer}.chip.active{background:#e7f8d7;border-color:#b8d8a1}.charger-list{display:grid;gap:10px}.charger{border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.charger h4{margin:0 0 5px;font-size:.98rem}.charger .meta{color:var(--muted);font-size:.8rem}.tag{display:inline-block;background:#eef7e7;color:#396b35;border-radius:7px;padding:4px 7px;font-size:.7rem;font-weight:800;margin-top:8px}.tag.warn{background:#fff0df;color:#915617}.tag.off{background:#fbe8e6;color:#973a30}.charger-actions{text-align:right}.charger-actions strong{display:block;font-size:1.1rem}.charger-actions small{display:block;color:var(--muted);font-size:.72rem;margin:2px 0 10px}.button.small{padding:9px 12px;font-size:.78rem}.empty{border:1px dashed var(--line);border-radius:14px;padding:20px;color:var(--muted);text-align:center}.session-detail{margin-top:15px;border:1px solid #c6e3b7;background:#f1f9e9;border-radius:16px;padding:17px}.session-detail h4{margin:0 0 8px}.session-detail p{margin:4px 0;font-size:.87rem}.session-detail .notice{font-size:.78rem;color:#53664f;margin-top:10px}.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.step{border-top:2px solid #94c86d;padding:18px 0}.step .num{font-size:.76rem;font-weight:850;color:#477a42}.step h3{margin:12px 0 7px;font-size:1rem}.step p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.7}.ai-box{background:#eef5e9;border:1px solid #d8e7ce;border-radius:24px;padding:28px;display:grid;grid-template-columns:1fr .95fr;gap:26px;align-items:center}.ai-box p{color:#5c7162;line-height:1.75}.ai-output{background:white;border:1px solid #dae5d5;border-radius:18px;padding:18px;min-height:178px}.ai-output .label{font-size:.74rem;color:#6d7c70;font-weight:800;text-transform:uppercase;letter-spacing:.07em}.ai-output p{margin:10px 0 0;color:var(--ink);font-size:.9rem}.ai-controls{display:flex;gap:8px;flex-wrap:wrap}.ai-controls select{border:1px solid #cedcc7;border-radius:12px;padding:10px;background:white;max-width:100%}.roadmap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.phase{border:1px solid var(--line);background:white;border-radius:20px;padding:21px}.phase .phase-label{font-size:.75rem;font-weight:850;color:#477a42;text-transform:uppercase;letter-spacing:.1em}.phase h3{margin:12px 0 8px}.phase p,.phase li{color:var(--muted);font-size:.88rem;line-height:1.65}.phase ul{padding-left:19px;margin-bottom:0}.cta{padding:54px;background:var(--deep);border-radius:28px;color:white;display:flex;justify-content:space-between;align-items:center;gap:24px}.cta h2{font-size:clamp(1.8rem,3vw,2.8rem);letter-spacing:-.04em;margin:0 0 9px}.cta p{color:#c8dacf;margin:0;max-width:610px}.footer{padding:30px 0;border-top:1px solid var(--line);font-size:.83rem;color:var(--muted)}.footer-row{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}.footer a{color:var(--ink)}.disclaimer{font-size:.76rem;color:#78887c;margin-top:12px}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,18px);opacity:0;background:#092c25;color:white;padding:12px 17px;border-radius:999px;box-shadow:var(--shadow);transition:all .2s ease;z-index:20;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}:focus-visible{outline:3px solid #76b85a;outline-offset:3px}
-    .scanner-intro{background:#f2f8ec;border:1px solid #d8e7ce;color:#425e43;padding:13px 14px;border-radius:14px;font-size:.88rem;margin-bottom:15px}.scan-actions{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.scanner-panel{border:1px solid var(--line);background:#f4f7f2;border-radius:15px;padding:10px;margin:0 0 15px}.scanner-panel video{display:block;width:100%;max-height:300px;object-fit:cover;border-radius:10px;background:#102c25}.scanner-panel p{margin:9px 2px 2px}.browse-details{border-top:1px solid var(--line);margin-top:20px;padding-top:15px}.browse-details summary{font-weight:800;cursor:pointer}.browse-details>p{margin:10px 0}.session-detail input[type=number]{width:105px;border:1px solid var(--line);border-radius:10px;padding:9px;margin:5px 0}.payment-choice{border:1px solid #d5e4cc;border-radius:13px;padding:12px;background:#f6faf2;margin:13px 0}.payment-success{border:1px solid #bbdfaa;background:#edf8e6;border-radius:16px;padding:16px}.payment-success strong{color:#2f722b}.payment-success p{margin:6px 0;font-size:.88rem}
-    .ai-finder{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:var(--shadow);overflow:hidden}.ai-finder-form{padding:25px;background:#f2f7ee}.ai-demo-label{display:inline-flex;align-items:center;gap:8px;font-size:.73rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#42643c;background:#e4f3db;border-radius:999px;padding:7px 10px;margin-bottom:20px}.ai-finder-form textarea,.ai-finder-form select{width:100%;border:1px solid #d4e1ce;background:#fff;border-radius:12px;padding:12px;color:var(--ink);margin-bottom:16px}.ai-finder-form textarea{resize:vertical;min-height:80px}.ai-finder-form>.button{width:100%}.query-examples{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.query-examples .fieldlabel{width:100%;margin:0 0 2px}.query-chip{background:white;border:1px solid #d5e2ce;border-radius:999px;padding:8px 10px;font-size:.76rem;cursor:pointer;color:#355540}.query-chip:hover{background:#e6f5dc}.ai-finder-results{padding:24px;min-width:0}.ai-results-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:15px}.ai-results-head strong{font-size:1.05rem}.ai-results-head .note{margin-top:5px}.ai-result-list{display:grid;gap:10px}.ai-result-card{border:1px solid var(--line);border-radius:15px;padding:15px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}.ai-result-card h3{margin:0 0 5px;font-size:.98rem}.ai-result-card p{margin:4px 0;color:var(--muted);font-size:.8rem}.ai-match-reason{font-size:.75rem;color:#315d32;background:#eef8e7;border-radius:8px;padding:5px 7px;display:inline-block;margin-top:5px}.ai-result-price{text-align:right;font-weight:850;font-size:1.08rem}.ai-result-price small{display:block;color:var(--muted);font-size:.72rem;font-weight:500}.ai-explain{background:#f3f7ef;border-radius:12px;padding:12px;color:#526752;font-size:.82rem;line-height:1.65;margin-bottom:12px}.ai-result-card .button{margin-top:8px}.query-warning{font-size:.79rem;color:#875924;background:#fff5e7;border:1px solid #f0d8b6;border-radius:12px;padding:12px;line-height:1.6;margin-top:12px}
-    @media(max-width:850px){.ai-finder{grid-template-columns:1fr}.navlinks a:not(.button){display:none}.hero-grid,.demo-grid,.ai-box{grid-template-columns:1fr}.hero{padding-top:30px}.hero-art{min-height:455px}.demo-intro{position:static}.feature-grid{grid-template-columns:1fr 1fr}.how-grid{grid-template-columns:1fr 1fr}.roadmap-grid{grid-template-columns:1fr}.section{padding:60px 0}.section-head{display:block}.cta{padding:30px;display:block}.cta .button{margin-top:20px}}
-    @media(max-width:520px){.ai-finder-form,.ai-finder-results{padding:17px}.ai-result-card{grid-template-columns:1fr}.ai-result-price{text-align:left}.wrap{width:min(100% - 28px,1160px)}.nav{height:66px}.navlinks .button{padding:10px 12px;font-size:.8rem}.hero-art{padding:17px;min-height:450px}.map-panel{height:255px}.feature-grid,.how-grid{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:11px}.stat small{font-size:.68rem}.charger{grid-template-columns:1fr}.charger-actions{text-align:left;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.charger-actions small{margin:0}.searchrow{flex-wrap:wrap}.searchrow input{flex-basis:100%}.section{padding:48px 0}.demo-content{padding:13px}.ai-box{padding:20px}}
+    :root{--ink:#102d26;--muted:#66786f;--paper:#f5f7f2;--white:#fff;--green:#c0f276;--deep:#0b2d25;--line:#dce5dc;--soft:#eaf5e2;--amber:#fff0d9;--red:#fbe9e6;--shadow:0 20px 50px rgba(11,45,37,.09)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:88px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:inherit}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{width:min(1160px,calc(100% - 40px));margin:0 auto}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:1.34rem;font-weight:850;letter-spacing:-.045em}.brand-logo{width:37px;height:37px;display:block;flex:0 0 auto}.navlinks{display:flex;align-items:center;gap:24px}.navlinks a{font-size:.9rem;text-decoration:none;color:#40574d}.navlinks a:hover{color:#081e18}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:999px;padding:12px 18px;background:var(--green);color:var(--deep);font-weight:800;text-decoration:none;transition:transform .16s ease,filter .16s ease}.btn:hover{transform:translateY(-1px);filter:brightness(.97)}.btn.dark{background:var(--deep);color:#fff}.btn.light{background:#fff;border-color:var(--line)}.btn.small{padding:9px 12px;font-size:.82rem}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #d5e5cc;background:#edf7e6;border-radius:999px;padding:7px 11px;font-size:.75rem;font-weight:850;letter-spacing:.07em;text-transform:uppercase;color:#3f6540}.dot{width:8px;height:8px;border-radius:50%;background:#5da447}.hero{padding:56px 0 70px}.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:54px}.hero h1{font-size:clamp(2.9rem,5.5vw,5.1rem);line-height:.98;letter-spacing:-.07em;max-width:700px;margin:21px 0}.hero h1 em{font-style:normal;color:#4d8744}.lead{max-width:610px;font-size:1.08rem;line-height:1.8;color:var(--muted)}.actions{display:flex;flex-wrap:wrap;gap:11px;margin:26px 0 16px}.small-note,.note{font-size:.8rem;color:#78887d}.hero-card{background:var(--deep);color:#fff;border-radius:30px;padding:23px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-card:before{content:"";position:absolute;width:270px;height:270px;border-radius:50%;background:var(--green);opacity:.1;right:-100px;top:-90px}.hero-top{display:flex;justify-content:space-between;gap:12px;align-items:center;position:relative}.hero-top small{color:#c4d9ce}.demo-pill{display:inline-flex;border:1px solid #426354;background:#173f33;color:#d9f7c5;border-radius:999px;padding:6px 9px;font-size:.7rem;font-weight:850;letter-spacing:.04em}.hero-map-art{height:250px;margin:20px 0 12px;border:1px solid #34584b;background-color:#10372d;border-radius:21px;position:relative;overflow:hidden;background-image:linear-gradient(26deg,transparent 47%,#31584a 48%,#31584a 49%,transparent 50%),linear-gradient(140deg,transparent 46%,#31584a 47%,#31584a 48%,transparent 49%),linear-gradient(90deg,transparent 63%,#31584a 64%,#31584a 65%,transparent 66%)}.art-road{position:absolute;width:140%;height:37px;left:-50px;top:106px;transform:rotate(-22deg);border-top:3px solid #406b57;border-bottom:3px solid #406b57}.art-pin{position:absolute;width:38px;height:38px;border-radius:50% 50% 50% 7px;transform:rotate(-45deg);background:var(--green);color:var(--deep);display:grid;place-items:center;font-size:1.15rem;font-weight:900;box-shadow:0 9px 25px #0004}.art-pin span{transform:rotate(45deg)}.art-pin.a{left:20%;top:27%}.art-pin.b{left:57%;top:50%;background:#fff}.art-pin.c{right:13%;top:20%;background:#f4b86e}.art-label{position:absolute;bottom:12px;left:12px;right:12px;background:#08261fdc;border:1px solid #426354;border-radius:13px;padding:10px 12px;font-size:.78rem;color:#d4e7db}.hero-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hero-stat{padding:12px;border:1px solid #34584b;background:#11382e;border-radius:13px}.hero-stat strong{display:block;color:var(--green);font-size:.95rem}.hero-stat small{font-size:.75rem;color:#c5d9ce}.section{padding:78px 0}.section.white{background:var(--white)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:28px}.kicker{color:#528246;font-size:.76rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.section h2{font-size:clamp(2rem,3.4vw,3.15rem);line-height:1.06;letter-spacing:-.055em;margin:10px 0 12px}.section-head p{max-width:570px;color:var(--muted);margin:0}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.feature{padding:22px;border:1px solid var(--line);background:var(--paper);border-radius:20px;min-height:190px}.feature-mark{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;background:#e2f4d5;font-size:1.2rem;margin-bottom:17px}.feature h3{margin:0 0 8px;font-size:1.08rem}.feature p{color:var(--muted);font-size:.9rem;line-height:1.7;margin:0}.map-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}.map-card,.station-panel,.panel{border:1px solid var(--line);background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 12px 35px rgba(11,45,37,.045)}.card-head{padding:18px 20px;display:flex;justify-content:space-between;align-items:start;gap:12px;border-bottom:1px solid var(--line)}.card-head h3{margin:0;font-size:1.02rem}.card-head p{color:var(--muted);font-size:.78rem;margin:3px 0 0}.map-legend{font-size:.74rem;color:var(--muted);padding:9px 17px;border-bottom:1px solid var(--line)}#stationMap{height:435px;background:#e8eee5;z-index:1}#mapFallback{display:none;min-height:435px;padding:30px;background:linear-gradient(145deg,#edf4e7,#e1eee0);color:#466452}.map-attribution{padding:7px 12px;color:var(--muted);font-size:.69rem;border-top:1px solid var(--line)}.filterbar{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;border-bottom:1px solid var(--line)}.filterbar input,.filterbar select,.field input,.field select,.field textarea,.chat-input input{width:100%;min-width:0;border:1px solid #d5dfd6;border-radius:11px;background:#fbfcf9;color:var(--ink);padding:11px 12px}.filterbar input{grid-column:1/-1}.results-meta{padding:10px 15px;color:var(--muted);font-size:.76rem;border-bottom:1px solid var(--line)}.station-list{max-height:485px;overflow:auto;padding:10px;display:grid;gap:9px}.station-row{border:1px solid var(--line);border-radius:15px;padding:13px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;transition:border-color .15s,background .15s}.station-row:hover{border-color:#a5c79a;background:#fbfff8}.station-row h4{margin:0 0 4px;font-size:.94rem}.station-row p{margin:3px 0;color:var(--muted);font-size:.76rem}.station-price{text-align:right;font-weight:850;font-size:1.05rem;white-space:nowrap}.station-price small{display:block;color:var(--muted);font-weight:500;font-size:.69rem}.station-row .row-actions{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}.status{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:.68rem;font-weight:800;padding:5px 7px;border-radius:7px;background:var(--soft);color:#426a36}.status.uncertain{background:var(--amber);color:#895819}.status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.empty{padding:22px;border:1px dashed var(--line);border-radius:13px;text-align:center;color:var(--muted);font-size:.88rem}.prototype-banner{display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border:1px solid #e2d3a6;background:#fff8e9;color:#765d21;border-radius:13px;font-size:.8rem;line-height:1.6;margin-top:17px}.workflow-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px;align-items:start}.workflow-copy p{color:var(--muted);line-height:1.8}.panel-head{background:var(--deep);color:white;padding:19px 21px;display:flex;justify-content:space-between;align-items:center;gap:12px}.panel-head h3{margin:0;font-size:1rem}.panel-body{padding:20px}.field{margin-bottom:15px}.field label{display:block;margin-bottom:7px;color:#536b5c;font-size:.79rem;font-weight:800}.field p{font-size:.78rem;color:var(--muted);margin:5px 0 0}.inline-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.scan-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.camera-box{padding:10px;background:#f2f5ef;border:1px solid var(--line);border-radius:14px;margin-bottom:14px}.camera-box video{width:100%;max-height:270px;display:block;background:#0c2a22;border-radius:9px}.result-box{margin-top:14px;border:1px solid #cfe1c5;background:#f2f8ed;border-radius:15px;padding:16px}.result-box h4{margin:4px 0 9px}.result-box p{margin:5px 0;font-size:.86rem}.result-box .fine{font-size:.76rem;color:#596d56;line-height:1.6;margin-top:12px}.result-box .amount{font-weight:900;font-size:1.5rem;letter-spacing:-.03em}.choice-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.pay-choice{border:1px solid #d1e0c9;border-radius:11px;padding:10px;background:#fff;display:flex;gap:8px;align-items:center;font-size:.82rem}.pay-choice input{accent-color:#2c713a}.pay-success{padding:14px;background:#eef8e8;border:1px solid #c8e3ba;border-radius:13px}.pay-success h4{margin:0 0 8px}.flow-note{border-top:1px solid #d9e7d0;margin-top:13px;padding-top:11px;font-size:.76rem;color:#657762;line-height:1.6}.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.step{padding:17px 0;border-top:2px solid #a1cd7b}.step .num{color:#4c8040;font-size:.75rem;font-weight:900}.step h3{font-size:1rem;margin:11px 0 7px}.step p{font-size:.85rem;color:var(--muted);line-height:1.7;margin:0}.ai-layout{display:grid;grid-template-columns:.87fr 1.13fr;gap:18px;align-items:stretch}.ai-intro{background:#eef5e8;border:1px solid #d7e5cf;border-radius:22px;padding:25px}.ai-intro h3{font-size:1.45rem;letter-spacing:-.04em;margin:10px 0}.ai-intro p{color:#5e7162;font-size:.91rem;line-height:1.75}.example-list{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.example{border:1px solid #cfdfc5;border-radius:999px;background:#fff;padding:8px 11px;font-size:.76rem;color:#3c6540}.chat-card{border:1px solid var(--line);background:#fff;border-radius:22px;display:flex;flex-direction:column;overflow:hidden;min-height:450px}.chat-head{padding:17px 19px;background:var(--deep);color:white;display:flex;align-items:center;gap:11px}.tara-avatar{width:39px;height:39px;border-radius:14px;background:var(--green);color:var(--deep);display:grid;place-items:center;font-weight:950}.chat-head h3{margin:0;font-size:1rem}.chat-head p{margin:2px 0 0;font-size:.72rem;color:#d0dfd7}.chat-status{margin-left:auto;font-size:.65rem;background:#294c3d;border:1px solid #416653;padding:5px 7px;border-radius:999px}.chat-thread{flex:1;padding:17px;display:flex;flex-direction:column;gap:11px;max-height:390px;overflow:auto;background:#fcfdfb}.bubble{max-width:92%;padding:12px 13px;border-radius:15px;font-size:.86rem;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}.bubble.bot{background:#edf5e7;border:1px solid #dce9d4;align-self:flex-start;border-bottom-left-radius:5px}.bubble.user{background:#10362b;color:white;align-self:flex-end;border-bottom-right-radius:5px}.chat-input{display:flex;gap:8px;padding:13px;border-top:1px solid var(--line)}.chat-input input{flex:1}.chat-input button{flex:0 0 auto}.mini-results{margin-top:8px;display:grid;gap:7px}.mini-station{background:#fff;border:1px solid #d7e4d0;padding:9px 10px;border-radius:10px;font-size:.77rem}.mini-station strong{display:block}.ai-feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:23px}.ai-feature{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:17px}.ai-feature b{display:block;margin:7px 0;font-size:.9rem}.ai-feature p{margin:0;color:var(--muted);font-size:.79rem;line-height:1.65}.thesis{background:var(--deep);color:#fff;border-radius:24px;padding:28px;margin-top:28px}.thesis h3{font-size:1.35rem;margin:0 0 8px}.thesis p{color:#c9d9cf;margin:0;max-width:900px;line-height:1.8}.roadmap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.phase{border:1px solid var(--line);background:#fff;border-radius:18px;padding:20px}.phase small{font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#518244;font-size:.7rem}.phase h3{margin:10px 0 8px}.phase p,.phase li{font-size:.85rem;color:var(--muted);line-height:1.7}.phase ul{padding-left:19px;margin-bottom:0}.cta{background:var(--deep);color:white;padding:37px;border-radius:26px;display:flex;justify-content:space-between;align-items:center;gap:23px}.cta h2{font-size:clamp(1.8rem,3.2vw,2.7rem);letter-spacing:-.05em;margin:0 0 8px}.cta p{color:#c7d9ce;max-width:700px;margin:0}.footer{padding:27px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}.footer-row{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.footer a:not(.brand){color:var(--ink)}.disclaimer{font-size:.76rem;color:#7a897e;line-height:1.8;margin-top:16px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;z-index:1000;background:#0b2d25;color:#fff;padding:11px 16px;border-radius:999px;box-shadow:var(--shadow);font-size:.84rem;transition:all .2s}.toast.show{opacity:1;transform:translate(-50%,0)}:focus-visible{outline:3px solid #7caf5f;outline-offset:3px}
+    @media(max-width:900px){.hero-grid,.map-layout,.workflow-grid,.ai-layout{grid-template-columns:1fr}.hero{padding-top:34px}.hero-card{max-width:680px}.section-head{display:block}.section-head p{margin-top:10px}.demo-intro{position:static}.feature-grid{grid-template-columns:repeat(2,1fr)}.ai-feature-grid{grid-template-columns:repeat(2,1fr)}.step-grid{grid-template-columns:repeat(2,1fr)}.navlinks{gap:14px}.navlinks a:not(.btn){display:none}}
+    @media(max-width:560px){.wrap{width:calc(100% - 28px)}.nav{height:67px}.brand{font-size:1.2rem}.brand-logo{width:33px;height:33px}.navlinks .btn{padding:9px 12px;font-size:.78rem}.hero{padding:33px 0 48px}.hero h1{font-size:clamp(2.7rem,14vw,4.1rem)}.hero-card{padding:15px;border-radius:22px}.hero-map-art{height:220px}.section{padding:52px 0}.feature-grid,.ai-feature-grid,.step-grid,.roadmap-grid{grid-template-columns:1fr}.filterbar{grid-template-columns:1fr}.filterbar input{grid-column:auto}.station-row{grid-template-columns:1fr}.station-price{text-align:left}.inline-fields,.choice-row{grid-template-columns:1fr}.panel-body{padding:15px}.cta{display:block;padding:24px}.cta .btn{margin-top:18px}.chat-card{min-height:480px}.chat-input{padding:9px}.chat-input .btn{padding:10px}.footer-row{align-items:flex-start;flex-direction:column}}
   </style>
 </head>
 <body>
   <header class="wrap nav">
-    <a href="#" class="brand" aria-label="ChargePe home"><span class="brandmark">C</span>ChargePe</a>
+    <a class="brand" href="#" aria-label="ChargePe home">
+      <svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="16" fill="#c0f276"/><path d="M31.5 13.5a14 14 0 1 0 0 21" fill="none" stroke="#0b2d25" stroke-width="4.6" stroke-linecap="round"/><path d="M24 13.5 16.8 25h7l-1.5 9.3L32 20.5h-7.2l3.2-7z" fill="#0b2d25"/></svg>
+      <span>ChargePe</span>
+    </a>
     <nav class="navlinks" aria-label="Main navigation">
-      <a href="#how">How it works</a><a href="#explore">Explore demo</a><a href="#ai">AI insights</a>
-      <a class="button" href="#explore">Try prototype ↗</a>
+      <a href="#stations">Explore stations</a><a href="#scan">Scan & pay</a><a href="#tara">TARA AI</a>
+      <a class="btn" href="#stations">Find a charger ↗</a>
     </nav>
   </header>
   <main>
     <section class="hero wrap">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow"><span class="dot"></span> Open-source EV charging platform · Early access</div>
-          <h1>One platform for <span>EV charging.</span></h1>
-          <p class="lead">ChargePe is building toward a unified EV charging experience in India. Discover stations, scan the QR code at a charger, compare reported reliability, and understand session costs through one consistent interface—with AI-assisted discovery on the roadmap.</p>
-          <div class="actions"><a href="#explore" class="button">Explore the demo <span>↘</span></a><a href="https://github.com/DivyanshWatma29/ChargePe" class="button secondary" target="_blank" rel="noreferrer">View project on GitHub ↗</a></div>
-          <p class="note">Open-source project · Early-stage hosted demo · Sample data and simulated payments; live network integrations are not enabled.</p>
+          <span class="eyebrow"><span class="dot"></span> Early-stage project · Interactive prototype</span>
+          <h1>EV charging, with <em>fewer question marks.</em></h1>
+          <p class="lead">Find a charger, compare the price, see how fresh its status report is, and use one clear QR-to-payment journey. ChargePe is exploring a reliability-first way to make public EV charging in India easier to understand.</p>
+          <div class="actions"><a class="btn" href="#stations">Explore the map <span>↘</span></a><a class="btn light" href="https://github.com/DivyanshWatma29/ChargePe" target="_blank" rel="noreferrer">View on GitHub ↗</a></div>
+          <p class="small-note">Demo directory only. Locations, operators, tariffs and status signals below are illustrative—not live network data.</p>
         </div>
-        <div class="hero-art" aria-label="Illustration of an EV charging map and sample session">
-          <div class="orb"></div>
-          <div class="art-top"><strong>ChargePe / nearby</strong><span class="live-pill">● DEMO ENVIRONMENT</span></div>
-          <div class="map-panel">
-            <div class="road"></div><div class="pin p1"><span>ϟ</span></div><div class="pin p2"><span>ϟ</span></div><div class="pin p3"><span>ϟ</span></div>
-            <div class="map-label"><strong>Charging, made clearer.</strong><span>Explore sample charger signals</span></div>
-          </div>
-          <div class="session-card"><div class="session-top"><span>Sample session · CP-102</span><span>DEMO</span></div><div class="session-price">₹186.00</div><div class="mini-line"><span></span></div><div class="session-top" style="margin-top:8px"><span>Estimated cost</span><span>65% demo progress</span></div></div>
-          <div class="art-footer"><span><b>Connected vision</b><br>Across participating networks</span><span><b>Reliability signals</b><br>With freshness labels</span></div>
+        <div class="hero-card">
+          <div class="hero-top"><strong>ChargePe / charger discovery</strong><span class="demo-pill">SAMPLE DATA</span></div>
+          <div class="hero-map-art" aria-label="Illustration of charging station markers"><div class="art-road"></div><div class="art-pin a"><span>ϟ</span></div><div class="art-pin b"><span>ϟ</span></div><div class="art-pin c"><span>ϟ</span></div><div class="art-label"><strong>Look beyond the map pin.</strong><br>Compare tariff, connector and report freshness.</div></div>
+          <div class="hero-bottom"><div class="hero-stat"><strong>Evidence-first</strong><small>Show what is known—and what isn't.</small></div><div class="hero-stat"><strong>Wallet-light by design</strong><small>Target a supported UPI hand-off, not another stored-value balance.</small></div></div>
         </div>
       </div>
     </section>
-    <section class="section white">
+    <section class="section white" id="difference">
       <div class="wrap">
-        <div class="section-head"><div><div class="kicker">The platform vision</div><h2>Charging should feel like one connected service.</h2></div><p>Different operators can mean different apps, session flows, tariffs, and receipts. ChargePe is exploring a simpler front door—while being clear that interoperability depends on real operator access.</p></div>
+        <div class="section-head"><div><div class="kicker">Product thesis</div><h2>A map is step one. Trust is the work.</h2></div><p>Multi-network discovery and in-app payment already exist in the market. ChargePe’s initial hypothesis is to make status confidence, price expectations, and what happens after a failed session much more transparent.</p></div>
         <div class="feature-grid">
-          <article class="feature"><div class="icon">⌕</div><h3>Find with context</h3><p>Compare connector type, indicative pricing, and the latest reported charger status rather than relying on a pin alone.</p></article>
-          <article class="feature"><div class="icon">▦</div><h3>Scan to begin</h3><p>A QR code can open the right station and connector in the demo. Starting an actual charging session needs an operator integration.</p></article>
-          <article class="feature"><div class="icon">↗</div><h3>Understand every cost</h3><p>Preview session estimates and a future consolidated history for drivers and fleets, without collecting real payments in this prototype.</p></article>
+          <article class="feature"><div class="feature-mark">◷</div><h3>Status with context</h3><p>Separate a recent report from an old or unconfirmed one. Future versions could combine operator telemetry, timestamped driver reports, and verified session outcomes.</p></article>
+          <article class="feature"><div class="feature-mark">₹</div><h3>Price before plug-in</h3><p>Show indicative ₹/kWh, estimate the session cost, and make fees and final settlement clear when a real operator feed is available.</p></article>
+          <article class="feature"><div class="feature-mark">↗</div><h3>One understandable journey</h3><p>Use a station QR, review the connector and estimate, then hand off to a supported payment method—subject to operator and payment-provider access.</p></article>
         </div>
       </div>
     </section>
-    <section class="section" id="explore">
-      <div class="wrap demo-grid">
-        <div class="demo-intro">
-          <div class="kicker">Interactive prototype</div><h2>Scan the QR at the charging station.</h2>
-          <p>In the intended journey, you arrive at a participating station and scan the QR label on the charger with ChargePe. The app identifies the station, shows the connector and estimated cost, then hands off to a supported payment flow.</p>
-          <p><strong>Prototype today:</strong> try the camera scanner if your browser supports it, or enter a sample station code. Charging sessions and payments are simulated; no real charger or payment network is connected.</p>
-          <a class="button secondary" href="https://github.com/DivyanshWatma29/ChargePe" target="_blank" rel="noreferrer">Inspect source ↗</a>
+    <section class="section" id="stations">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">Explore the network</div><h2>Map it. Compare it. Choose.</h2></div><p>Browse the illustrative ChargePe directory. Select a pin or station card to inspect its connector, sample tariff and status-report freshness. This is not a live map of operating chargers.</p></div>
+        <div class="map-layout">
+          <div class="map-card">
+            <div class="card-head"><div><h3>Charging station map</h3><p>Interactive map · illustrative pins</p></div><span class="demo-pill" style="background:#f2f6ef;color:#486444;border-color:#dbe7d5">DEMO</span></div>
+            <div class="map-legend">Green = recently reported working (sample) &nbsp; · &nbsp; Amber = status unconfirmed (sample)</div>
+            <div id="stationMap" role="region" aria-label="Interactive map of sample charging stations"></div>
+            <div id="mapFallback"><strong>Map preview unavailable</strong><p>The sample station directory still works. Map tiles require an internet connection and the map service to be available.</p></div>
+            <div class="map-attribution">Map tiles © OpenStreetMap contributors. Station pins and names are illustrative demo records, not verified charger locations.</div>
+          </div>
+          <div class="station-panel">
+            <div class="card-head"><div><h3>Station directory</h3><p>Filter by city, connector or status</p></div></div>
+            <div class="filterbar">
+              <input type="search" id="stationSearch" placeholder="Search area, station or operator" aria-label="Search station directory">
+              <select id="cityFilter" aria-label="Filter by city"><option value="all">All demo cities</option><option>Indore</option><option>Bengaluru</option><option>Pune</option><option>Hyderabad</option></select>
+              <select id="connectorFilter" aria-label="Filter by connector"><option value="all">All connectors</option><option>CCS2</option><option>Type 2</option></select>
+              <select id="statusFilter" aria-label="Filter by sample status"><option value="all">All sample statuses</option><option value="working">Recently reported working</option><option value="uncertain">Unconfirmed</option></select>
+            </div>
+            <div id="resultsMeta" class="results-meta" aria-live="polite">6 illustrative stations</div>
+            <div id="stationList" class="station-list"></div>
+          </div>
         </div>
-        <div class="demo-card">
-          <div class="demo-banner"><div><strong>Scan at the charger</strong><br><span>Station QR → details → payment review</span></div><span class="live-pill">DEMO MODE</span></div>
-          <div class="demo-content">
-            <div class="scanner-intro">Hold your phone up to the QR label on the charging station. The QR code belongs on the station—not on this homepage.</div>
-            <div class="scan-actions">
-              <button class="button dark" id="startScanner" type="button">Open camera scanner ↗</button>
-              <button class="button secondary small" id="stopScanner" type="button" hidden>Stop camera</button>
+        <div class="prototype-banner"><strong>ⓘ</strong><span><b>Important:</b> All six stations, operators, rates, report times and status labels are sample data. “Recently reported working” is not a live availability guarantee. Location and charger details must be validated against participating networks before production.</span></div>
+      </div>
+    </section>
+    <section class="section white" id="scan">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">QR → estimate → payment review</div><h2>Start at the charger—not a wallet top-up.</h2></div><p>The intended flow is to scan the QR label fixed to a participating charger, verify the station and connector, review an estimate, then use an authorised payment hand-off. Try a sample code below.</p></div>
+        <div class="workflow-grid">
+          <div class="workflow-copy"><h3>Built for a clear hand-off</h3><p>ChargePe’s direction is to let drivers use a supported UPI app linked to their bank, without needing a separate ChargePe stored-value wallet. Real cross-network charging still requires the operator to authorise the session and a payment provider to handle collection and settlement.</p><p><b>For this prototype:</b> QR scanning or sample-code entry identifies demo records. You can review an indicative cost and simulate the payment screen, but no payment occurs and no charger starts.</p><div class="prototype-banner"><strong>!</strong><span>Never enter your UPI PIN, bank password, card number or OTP into a prototype page. The live version here does not need any of those details.</span></div></div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>Identify a station</h3><span style="font-size:.75rem;color:#d1dfd6">Scan sample QR or enter its demo code</span></div><span class="demo-pill">DEMO MODE</span></div>
+            <div class="panel-body">
+              <div class="scan-controls"><button class="btn dark" type="button" id="startScanner">Open camera scanner ↗</button><button class="btn light small" type="button" id="stopScanner" hidden>Stop camera</button></div>
+              <div class="camera-box" id="cameraBox" hidden><video id="scannerVideo" playsinline muted></video><p class="note">Point the camera at a sample QR code containing a ChargePe demo station ID, such as CP-610. Requires HTTPS, permission, and browser BarcodeDetector support.</p></div>
+              <div class="field"><label for="stationCode">Station code or QR content</label><div style="display:flex;gap:8px"><input id="stationCode" placeholder="e.g. CP-610" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d5dfd6;border-radius:11px;padding:11px 12px"><button class="btn dark small" type="button" id="lookupStation">Identify</button></div><p>Try a sample station QR code: CP-102, CP-207, CP-311, CP-409, CP-512 or CP-610.</p></div>
+              <div id="stationResult" aria-live="polite"></div><div id="paymentResult" aria-live="polite"></div>
             </div>
-            <div class="scanner-panel" id="scannerPanel" hidden>
-              <video id="scannerVideo" playsinline muted aria-label="Camera view for scanning a charger QR code"></video>
-              <p class="note">Point the camera at the QR label. Camera scanning needs HTTPS and browser support. You can use the demo code field if scanning is unavailable.</p>
-            </div>
-            <label class="fieldlabel" for="stationCode">Or enter the station code / QR content</label>
-            <div class="searchrow"><input id="stationCode" type="text" placeholder="Example: CP-102" autocomplete="off"><button class="button dark small" id="lookupStation" type="button">Identify station</button></div>
-            <div class="chips demo-codes" aria-label="Sample station codes">
-              <button class="chip" type="button" data-demo-code="CP-102">Try CP-102</button>
-              <button class="chip" type="button" data-demo-code="CP-311">Try CP-311</button>
-              <button class="chip" type="button" data-demo-code="CP-409">Try CP-409</button>
-              <button class="chip" type="button" data-demo-code="CP-610">Try CP-610</button>
-            </div>
-            <p class="note">Demo code IDs only. In production, ChargePe must resolve a station QR through an approved operator or interoperability integration.</p>
-            <div id="stationResult" aria-live="polite"></div>
-            <div id="sessionOutput" aria-live="polite"></div>
-            <details class="browse-details">
-              <summary>Browse sample stations instead</summary>
-              <p class="note">This directory is for exploring the demo data. At a real charger, the intended entry point is scanning that station's QR label.</p>
-              <label class="fieldlabel" for="search">Search by area, operator or connector</label>
-              <div class="searchrow"><input id="search" type="search" placeholder="Try Indore or CCS2" autocomplete="off"><button class="button dark small" id="searchBtn" type="button">Search</button></div>
-              <div class="chips" role="group" aria-label="Filter charger status"><button class="chip active" data-filter="all" type="button">All statuses</button><button class="chip" data-filter="working" type="button">Recently reported working</button><button class="chip" data-filter="uncertain" type="button">Unconfirmed</button></div>
-              <div id="chargerList" class="charger-list" aria-live="polite"></div>
-            </details>
           </div>
         </div>
       </div>
     </section>
-    <section class="section white" id="how">
+    <section class="section" id="tara">
       <div class="wrap">
-        <div class="section-head"><div><div class="kicker">Proposed journey</div><h2>From QR scan to a clearer receipt.</h2></div><p>ChargePe is being developed as an open-source platform for a more consistent EV charging journey. Live station data, charger controls, and payment methods depend on participating operators and future integrations.</p></div>
-        <div class="how-grid">
-          <article class="step"><span class="num">STEP 01</span><h3>Discover a charger</h3><p>Compare location, connector, reported status, and indicative pricing.</p></article>
-          <article class="step"><span class="num">STEP 02</span><h3>Scan station QR</h3><p>Open the specific station and connector page. This prototype uses demo station IDs.</p></article>
-          <article class="step"><span class="num">STEP 03</span><h3>Review session details</h3><p>See the estimated session cost before continuing. No money is collected here.</p></article>
-          <article class="step"><span class="num">STEP 04</span><h3>Record and reconcile</h3><p>Plan for session history and fleet reports once trusted operator data is available.</p></article>
+        <div class="section-head"><div><div class="kicker">AI assistant concept</div><h2>Meet TARA.</h2></div><p>TARA stands for Trip & Range Assistant. Ask in plain language to shortlist the cheapest sample charger, find a higher-power connector, compare report freshness, or estimate charging cost.</p></div>
+        <div class="ai-layout">
+          <div class="ai-intro"><span class="eyebrow"><span class="dot"></span> TARA · Trip & Range Assistant</span><h3>Ask a charging question.</h3><p>Instead of learning every filter, tell TARA what matters to you. It can explain its shortlist and show the data used for the estimate.</p><p><b>Current demo:</b> local rule-based matching over the six sample station records; no external AI model, live charger feed or GPS is connected.</p><div class="example-list"><button class="example" type="button" data-chat="Find the cheapest charger in Indore">Cheapest in Indore</button><button class="example" type="button" data-chat="Find the fastest CCS2 charger in Bengaluru">Fastest CCS2 in Bengaluru</button><button class="example" type="button" data-chat="Which stations were recently reported working?">Status freshness</button><button class="example" type="button" data-chat="How much would 10 kWh cost at the cheapest station?">Estimate 10 kWh</button></div><p class="note">Future AI direction: range-aware trip planning, tariff explanations, invoice anomaly flags, and evidence-based alternatives. These are planned ideas, not implemented services.</p></div>
+          <div class="chat-card">
+            <div class="chat-head"><div class="tara-avatar">T</div><div><h3>TARA <span style="font-weight:500">by ChargePe</span></h3><p>Trip & Range Assistant · prototype</p></div><span class="chat-status">RULE-BASED DEMO</span></div>
+            <div id="chatThread" class="chat-thread" aria-live="polite"><div class="bubble bot">Hi, I’m TARA. Tell me your city, connector or price preference. I’ll explain matches from the sample directory and flag what isn’t verified live.</div></div>
+            <form class="chat-input" id="chatForm"><input id="chatPrompt" type="text" placeholder="e.g. Cheapest CCS2 charger near Indore" aria-label="Ask TARA a charging question" autocomplete="off" required><button class="btn dark small" type="submit">Ask ↗</button></form>
+          </div>
+        </div>
+        <div class="ai-feature-grid">
+          <article class="ai-feature"><span>◷</span><b>Reliability confidence</b><p>Future scoring from timestamped reports, operator data and verified session outcomes.</p></article>
+          <article class="ai-feature"><span>₹</span><b>Cost explainer</b><p>Break down estimated energy costs, supported fees and what could change the final bill.</p></article>
+          <article class="ai-feature"><span>↗</span><b>Range-aware trips</b><p>Future route and stop recommendations based on vehicle range, connector compatibility and trusted data.</p></article>
+          <article class="ai-feature"><span>≋</span><b>Bill anomaly flags</b><p>Future checks for unusual energy, duplicate records or differences between estimate and receipt.</p></article>
         </div>
       </div>
     </section>
-    <section class="section" id="ai">
+    <section class="section white" id="roadmap">
       <div class="wrap">
-        <div class="section-head"><div><div class="kicker">AI-assisted charger discovery</div><h2>Ask ChargePe. Find your fit.</h2></div><p>Type what you need in everyday language—cheapest nearby charger, a specific operator, a fast CCS2 point, or a recently reported working station. This preview matches illustrative sample data.</p></div>
-        <div class="ai-finder">
-          <div class="ai-finder-form">
-            <div class="ai-demo-label"><span class="dot"></span> Natural-language search · prototype</div>
-            <label class="fieldlabel" for="chargePePrompt">What are you looking for?</label>
-            <textarea id="chargePePrompt" rows="3" placeholder="Example: Find the cheapest charger nearby"></textarea>
-            <label class="fieldlabel" for="aiDemoCity">Demo location for “near me”</label>
-            <select id="aiDemoCity">
-              <option value="Indore" selected>Indore (demo location)</option>
-              <option value="Bengaluru">Bengaluru (demo location)</option>
-              <option value="Pune">Pune (demo location)</option>
-              <option value="Hyderabad">Hyderabad (demo location)</option>
-            </select>
-            <button class="button dark" id="askChargePe" type="button">Find matching chargers ↗</button>
-            <div class="query-examples">
-              <span class="fieldlabel">Try a query</span>
-              <button type="button" class="query-chip" data-query="Find the cheapest charger nearby">Cheapest nearby</button>
-              <button type="button" class="query-chip" data-query="Show recently reported working chargers nearby">Recently reported working</button>
-              <button type="button" class="query-chip" data-query="Find the fastest CCS2 charger in Bengaluru">Fastest CCS2 in Bengaluru</button>
-              <button type="button" class="query-chip" data-query="Show DemoCharge Network stations in Indore">A specific operator</button>
-            </div>
-            <p class="note">“Nearby” currently means the selected demo city, not your GPS location. The search is a local prototype and does not call an external AI model.</p>
-          </div>
-          <div class="ai-finder-results">
-            <div class="ai-results-head"><div><strong id="aiResultTitle">Your charging shortlist</strong><div class="note" id="aiResultSubtitle">Enter a query to see matching sample stations.</div></div><span class="live-pill">SAMPLE DATA</span></div>
-            <div id="aiSearchResults" aria-live="polite"><div class="empty">Try “Find the cheapest charger nearby” to begin.</div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section white">
-      <div class="wrap">
-        <div class="section-head"><div><div class="kicker">Platform roadmap</div><h2>Build the interface. Connect the networks.</h2></div><p>Start with a credible, testable interface. Keep the distinction between prototype features and future production capabilities explicit.</p></div>
+        <div class="section-head"><div><div class="kicker">Roadmap</div><h2>Prototype honestly. Integrate deliberately.</h2></div><p>ChargePe is an early-stage product thesis, not a live charging network. Each production feature depends on trusted data, user validation, operator participation and appropriate payment/security controls.</p></div>
         <div class="roadmap-grid">
-          <article class="phase"><span class="phase-label">Phase 1 · Now</span><h3>Discovery prototype</h3><p>Static landing page, sample charger cards, QR-flow simulation, indicative costs, clear demo labels.</p><ul><li>Free GitHub Pages hosting</li><li>Sample data only</li><li>No user account required</li></ul></article>
-          <article class="phase"><span class="phase-label">Phase 2 · Validate</span><h3>Reliability and fleet tools</h3><p>Test with drivers and fleet operators before locking the feature set.</p><ul><li>Reports with timestamps</li><li>Session history and CSV</li><li>Fleet cost summaries</li></ul></article>
-          <article class="phase"><span class="phase-label">Phase 3 · Integrate</span><h3>Participating networks</h3><p>Requires operator agreements, technical access, security review, and payment-provider arrangements.</p><ul><li>UBC/Beckn or OCPI, where available</li><li>Real start/stop and status</li><li>Supported payments and receipts</li></ul></article>
+          <article class="phase"><small>Now · Browser prototype</small><h3>Explore the flow</h3><p>Interactive station map, filterable illustrative directory, QR/code identification, cost estimate, payment simulation and TARA rule-based chat.</p><ul><li>Static site hosting</li><li>No account or install</li><li>No real payments</li></ul></article>
+          <article class="phase"><small>Next · Validate</small><h3>Prove the trust layer</h3><p>Talk to drivers and fleet operators; test what makes them trust or avoid a station listing.</p><ul><li>Source and timestamp every status</li><li>Capture structured failure reports</li><li>Test estimates and receipt UX</li></ul></article>
+          <article class="phase"><small>Later · Integrations</small><h3>Connect real networks</h3><p>Requires operator participation, API access, a backend, security reviews and a supported payment provider.</p><ul><li>Station/operator integrations</li><li>Authorised charging controls</li><li>UPI flow and reconciled receipts</li></ul></article>
         </div>
+        <div class="thesis"><h3>The initial wedge: reliability clarity, not another map.</h3><p>Existing Indian products already offer combinations of multi-network discovery, availability, QR flows and payments. ChargePe will test whether clearly sourced status confidence, transparent cost expectations and consistent session records solve an important unmet problem. This is a hypothesis to validate with users—not a claim that competitors lack these features.</p></div>
       </div>
     </section>
-    <section class="section">
-      <div class="wrap"><div class="cta"><div><h2>Let’s make charging easier to understand.</h2><p>ChargePe is an early-stage open-source EV charging platform. Feedback from drivers, fleet operators, and charging networks will help shape its next integrations.</p></div><a class="button" href="mailto:contact@chargepe.me?subject=ChargePe%20feedback">Share feedback ↗</a></div><p class="disclaimer">Prototype notice: Charger listings, reports, prices, availability, charging sessions, and AI insights on this site are illustrative sample data. This website does not start real charging sessions, process payments, promise refunds, or verify live station status. ChargePe is not affiliated with any charging operator unless explicitly stated.</p></div>
-    </section>
+    <section class="section"><div class="wrap"><div class="cta"><div><h2>Help shape the next iteration.</h2><p>ChargePe is an early-stage open-source project. Feedback from EV drivers, fleet managers and charging operators can help validate the product thesis before integrations are built.</p></div><a class="btn" href="mailto:contact@chargepe.me?subject=ChargePe%20product%20feedback">Share feedback ↗</a></div><p class="disclaimer">Prototype notice: sample station names, coordinates, rates, operators, statuses and report times are illustrative. The map uses real map tiles but pins do not identify verified charging stations. This demo does not access live GPS, contact charging operators, call an external AI service, start or stop charging, process UPI/bank payments, hold funds or issue real refunds. Any real cross-network charge requires operator authorisation and payment-provider support. ChargePe is independent and is not affiliated with the named EV networks mentioned in research materials.</p></div></section>
   </main>
-  <footer class="footer"><div class="wrap footer-row"><a href="#" class="brand"><span class="brandmark">C</span>ChargePe</a><span>Built as an open project · <a href="https://github.com/DivyanshWatma29/ChargePe" target="_blank" rel="noreferrer">GitHub repository</a></span><a href="mailto:contact@chargepe.me">contact@chargepe.me</a></div></footer>
+  <footer class="footer"><div class="wrap footer-row"><a class="brand" href="#"><svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="16" fill="#c0f276"/><path d="M31.5 13.5a14 14 0 1 0 0 21" fill="none" stroke="#0b2d25" stroke-width="4.6" stroke-linecap="round"/><path d="M24 13.5 16.8 25h7l-1.5 9.3L32 20.5h-7.2l3.2-7z" fill="#0b2d25"/></svg><span>ChargePe</span></a><span>Early-stage open project · <a href="https://github.com/DivyanshWatma29/ChargePe" target="_blank" rel="noreferrer">GitHub</a></span><a href="mailto:contact@chargepe.me">contact@chargepe.me</a></div></footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     const stations = [
-      {id:"CP-102",name:"Orion Business Park",area:"Bengaluru",operator:"DemoCharge Network",connector:"CCS2",power:60,price:18.5,status:"working",reported:"18 min ago",reportedMinutes:18},
-      {id:"CP-207",name:"Indiranagar Market Hub",area:"Bengaluru",operator:"GreenRoute Mobility",connector:"CCS2",power:30,price:19.0,status:"uncertain",reported:"4 days ago",reportedMinutes:5760},
-      {id:"CP-311",name:"Central Avenue Point",area:"Pune",operator:"CityVolt Demo",connector:"Type 2",power:22,price:16.5,status:"working",reported:"42 min ago",reportedMinutes:42},
-      {id:"CP-409",name:"Ring Road Transit Hub",area:"Indore",operator:"DemoCharge Network",connector:"CCS2",power:50,price:18.0,status:"uncertain",reported:"6 days ago",reportedMinutes:8640},
-      {id:"CP-610",name:"Vijay Nagar Mobility Hub",area:"Indore",operator:"VoltWay Demo",connector:"CCS2",power:30,price:17.5,status:"working",reported:"26 min ago",reportedMinutes:26},
-      {id:"CP-512",name:"Tech Park Slow Charger",area:"Hyderabad",operator:"GreenRoute Mobility",connector:"Type 2",power:7.4,price:14.5,status:"working",reported:"1 hour ago",reportedMinutes:60}
+      {id:"CP-102",name:"Orion Business Park",city:"Bengaluru",area:"Outer Ring Road (demo area)",operator:"DemoCharge Network",connector:"CCS2",power:60,price:18.5,status:"working",reported:"18 min ago",minutes:18,lat:12.995,lng:77.696},
+      {id:"CP-207",name:"Indiranagar Market Hub",city:"Bengaluru",area:"Indiranagar (demo area)",operator:"GreenRoute Mobility",connector:"CCS2",power:30,price:19,status:"uncertain",reported:"4 days ago",minutes:5760,lat:12.978,lng:77.641},
+      {id:"CP-311",name:"Central Avenue Point",city:"Pune",area:"Central Pune (demo area)",operator:"CityVolt Demo",connector:"Type 2",power:22,price:16.5,status:"working",reported:"42 min ago",minutes:42,lat:18.5204,lng:73.8567},
+      {id:"CP-409",name:"Ring Road Transit Hub",city:"Indore",area:"Ring Road (demo area)",operator:"DemoCharge Network",connector:"CCS2",power:50,price:18,status:"uncertain",reported:"6 days ago",minutes:8640,lat:22.7196,lng:75.8577},
+      {id:"CP-610",name:"Vijay Nagar Mobility Hub",city:"Indore",area:"Vijay Nagar (demo area)",operator:"VoltWay Demo",connector:"CCS2",power:30,price:17.5,status:"working",reported:"26 min ago",minutes:26,lat:22.7533,lng:75.8937},
+      {id:"CP-512",name:"Tech Park Slow Charger",city:"Hyderabad",area:"HITEC City (demo area)",operator:"GreenRoute Mobility",connector:"Type 2",power:7.4,price:14.5,status:"working",reported:"1 hour ago",minutes:60,lat:17.4435,lng:78.3772}
     ];
-    let filter="all", cameraStream=null, scannerRunning=false, scanFrame=null, activeStation=null;
-    const list=document.getElementById("chargerList"), output=document.getElementById("sessionOutput"), result=document.getElementById("stationResult"), search=document.getElementById("search"), toast=document.getElementById("toast");
-    const scannerVideo=document.getElementById("scannerVideo"), scannerPanel=document.getElementById("scannerPanel");
-    function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-    function notify(msg){toast.textContent=msg;toast.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>toast.classList.remove("show"),2600);}
-    function stopScanner(){
-      scannerRunning=false;
-      if(scanFrame!==null){cancelAnimationFrame(scanFrame);scanFrame=null;}
-      if(cameraStream){cameraStream.getTracks().forEach(track=>track.stop());cameraStream=null;}
-      scannerVideo.srcObject=null;
-      scannerPanel.hidden=true;
-      document.getElementById("stopScanner").hidden=true;
+    const byId = id => stations.find(s => s.id.toLowerCase() === String(id).toLowerCase());
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const money = n => "₹" + Number(n).toFixed(2);
+    const toast = document.getElementById("toast");
+    let toastTimer = null, cameraStream = null, scannerOn = false, raf = null, activeStation = null, map = null, markers = {};
+    function notify(message){toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2700);}
+    function stationStatus(s){return s.status==="working" ? "Recently reported working · "+s.reported : "Status unconfirmed · last report "+s.reported;}
+    function renderStations(){
+      const q=document.getElementById("stationSearch").value.trim().toLowerCase();
+      const city=document.getElementById("cityFilter").value;
+      const conn=document.getElementById("connectorFilter").value;
+      const status=document.getElementById("statusFilter").value;
+      const rows=stations.filter(s=>(city==="all"||s.city===city)&&(conn==="all"||s.connector===conn)&&(status==="all"||s.status===status)&&(!q||[s.id,s.name,s.city,s.area,s.operator,s.connector].some(v=>v.toLowerCase().includes(q))));
+      document.getElementById("resultsMeta").textContent=rows.length+" of "+stations.length+" illustrative stations · indicative demo prices";
+      document.getElementById("stationList").innerHTML=rows.length?rows.map(s=>'<article class="station-row"><div><h4>'+esc(s.name)+'</h4><p>'+esc(s.city)+' · '+esc(s.area)+'</p><p>'+esc(s.operator)+' · '+esc(s.connector)+' · '+s.power+' kW · '+s.id+'</p><span class="status '+(s.status==="uncertain"?"uncertain":"")+'">'+esc(stationStatus(s))+'</span><div class="row-actions"><button class="btn dark small" type="button" data-inspect="'+s.id+'">View station</button><button class="btn light small" type="button" data-code="'+s.id+'">Use QR flow</button></div></div><div class="station-price">'+money(s.price)+'<small>per kWh · demo rate</small></div></article>').join(""):'<div class="empty">No sample stations match those filters. Try another city or connector.</div>';
+      document.querySelectorAll("[data-inspect]").forEach(b=>b.addEventListener("click",()=>focusStation(b.dataset.inspect)));
+      document.querySelectorAll("[data-code]").forEach(b=>b.addEventListener("click",()=>{document.getElementById("stationCode").value=b.dataset.code;identifyStation(b.dataset.code);document.getElementById("scan").scrollIntoView({behavior:"smooth"});}));
+      if(map){Object.entries(markers).forEach(([id,marker])=>marker.setOpacity(rows.some(s=>s.id===id)?1:.28));}
     }
-    async function startScanner(){
-      if(!window.isSecureContext){notify("Camera access needs a secure HTTPS page. Enter a demo code below.");return;}
-      if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){notify("This browser does not provide camera access. Enter CP-102 or another demo code below.");return;}
-      if(!("BarcodeDetector" in window)){notify("Camera QR scanning is not supported by this browser yet. Use one of the demo station codes below.");return;}
+    function focusStation(id){
+      const s=byId(id); if(!s)return;
+      document.getElementById("cityFilter").value=s.city;
+      renderStations();
+      if(map&&markers[id]){map.setView([s.lat,s.lng],12);markers[id].openPopup();}
+      const code=document.getElementById("stationCode");
+      if(code) {code.value=s.id;identifyStation(s.id,false);}
+    }
+    function initMap(){
+      const mapEl=document.getElementById("stationMap");
+      if(!window.L){mapEl.style.display="none";document.getElementById("mapFallback").style.display="block";return;}
       try{
-        const detector=new BarcodeDetector({formats:["qr_code"]});
-        cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
-        scannerVideo.srcObject=cameraStream;
-        scannerPanel.hidden=false;
-        document.getElementById("stopScanner").hidden=false;
-        await scannerVideo.play();
-        scannerRunning=true;
-        notify("Camera ready. Point it at the station's QR label.");
-        async function scanFrameLoop(){
-          if(!scannerRunning)return;
-          try{
-            const codes=await detector.detect(scannerVideo);
-            if(codes && codes.length && codes[0].rawValue){
-              const payload=codes[0].rawValue;
-              stopScanner();
-              document.getElementById("stationCode").value=payload;
-              handleStationPayload(payload,"QR scanned");
-              return;
-            }
-          }catch(e){}
-          if(scannerRunning)scanFrame=requestAnimationFrame(scanFrameLoop);
-        }
-        scanFrame=requestAnimationFrame(scanFrameLoop);
-      }catch(error){
-        stopScanner();
-        notify(error && error.name==="NotAllowedError"?"Camera permission was denied. Enter a demo station code instead.":"Could not open the camera. Enter a demo station code instead.");
-      }
+        map=L.map("stationMap",{scrollWheelZoom:false}).setView([22.6,78.9],5);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'}).addTo(map);
+        stations.forEach(s=>{
+          const color=s.status==="working"?"#4c8a3d":"#d28a28";
+          const icon=L.divIcon({className:"",html:'<div style="width:25px;height:25px;display:grid;place-items:center;border-radius:50% 50% 50% 5px;transform:rotate(-45deg);background:'+color+';border:2px solid #fff;box-shadow:0 2px 8px #0004"><span style="transform:rotate(45deg);color:#fff;font-weight:900;font-size:13px">ϟ</span></div>',iconSize:[27,27],iconAnchor:[13,24],popupAnchor:[0,-23]});
+          const m=L.marker([s.lat,s.lng],{icon}).addTo(map);
+          m.bindPopup('<strong>'+esc(s.name)+'</strong><br>'+esc(s.city)+' · '+esc(s.connector)+' · '+s.power+' kW<br><b>'+money(s.price)+'/kWh</b> <span style="color:#65776b">(demo)</span><br><small>'+esc(stationStatus(s))+'</small><br><button type="button" onclick="window.chargePeSelectStation(\''+s.id+'\')" style="margin-top:8px;padding:6px 9px;border:0;border-radius:8px;background:#c0f276;color:#0b2d25;font-weight:800;cursor:pointer">Open station</button>');
+          markers[s.id]=m;
+        });
+        setTimeout(()=>map.invalidateSize(),200);
+      }catch(e){mapEl.style.display="none";document.getElementById("mapFallback").style.display="block";}
     }
-    function findStation(payload){
-      const text=String(payload||"").trim();
-      const match=text.match(/(?:^|[^a-z0-9])(CP-\d{3})(?:$|[^a-z0-9])/i);
-      if(!match)return null;
-      return stations.find(s=>s.id.toLowerCase()===match[1].toLowerCase())||null;
-    }
-    function handleStationPayload(payload,source){
-      const s=findStation(payload);
-      output.innerHTML="";
+    window.chargePeSelectStation=id=>focusStation(id);
+    function identifyStation(raw,scroll){
+      const text=String(raw||"").trim();
+      const m=text.match(/(?:^|[^a-z0-9])(CP-\d{3})(?:$|[^a-z0-9])/i);
+      const s=m?byId(m[1]):null;
+      const result=document.getElementById("stationResult"), pay=document.getElementById("paymentResult");
+      result.innerHTML="";pay.innerHTML="";activeStation=null;
       if(!s){
-        activeStation=null;
-        result.innerHTML='<div class="session-detail"><h4>Station not recognized by this demo</h4><p>This prototype recognizes sample IDs such as <strong>CP-102</strong>, <strong>CP-311</strong>, <strong>CP-409</strong>, and <strong>CP-610</strong>.</p><p class="notice">A real station QR must be resolved through an approved operator or interoperability integration. ChargePe cannot assume any arbitrary QR can start a charging session.</p></div>';
+        result.innerHTML='<div class="result-box"><h4>Station not recognised in this demo</h4><p>Try a sample ID such as <b>CP-610</b>. A QR code from an external operator cannot be used to start charging until a verified integration is available.</p></div>';
         return;
       }
       activeStation=s;
-      result.innerHTML='<div class="session-detail"><span class="tag">'+escapeText(source||"Demo code accepted")+'</span><h4>Station identified · '+escapeText(s.id)+'</h4><p><strong>Station:</strong> '+escapeText(s.name)+', '+escapeText(s.area)+'</p><p><strong>Operator:</strong> '+escapeText(s.operator)+'</p><p><strong>Connector:</strong> '+escapeText(s.connector)+' · '+s.power+' kW</p><p><strong>Reported status:</strong> '+(s.status==="working"?"Recently reported working":"Unconfirmed")+' · '+escapeText(s.reported)+'</p><p><strong>Indicative demo tariff:</strong> ₹'+s.price.toFixed(2)+' per kWh</p><label class="fieldlabel" for="energyInput">Estimated energy for this demo session (kWh)</label><input id="energyInput" type="number" min="1" max="100" step="0.5" value="10"><p><strong>Estimated total:</strong> <span id="estimateAmount">₹'+(s.price*10).toFixed(2)+'</span></p><p class="notice">Sample listing and tariff only. This does not confirm live availability or connect to the charger.</p><button class="button dark small" id="reviewPayment" type="button">Review payment ↗</button> <button class="button secondary small" id="clearStation" type="button">Cancel</button></div>';
-      const energyInput=document.getElementById("energyInput");
-      energyInput.addEventListener("input",()=>{const kwh=Math.max(0,Math.min(100,Number(energyInput.value)||0));document.getElementById("estimateAmount").textContent="₹"+(kwh*s.price).toFixed(2);});
-      document.getElementById("reviewPayment").addEventListener("click",()=>reviewPayment());
-      document.getElementById("clearStation").addEventListener("click",()=>{activeStation=null;result.innerHTML="";output.innerHTML="";});
-      result.scrollIntoView({behavior:"smooth",block:"nearest"});
+      result.innerHTML='<div class="result-box"><span class="status '+(s.status==="uncertain"?"uncertain":"")+'">'+esc(s.status==="working"?"Sample report: working":"Sample status: unconfirmed")+'</span><h4>'+esc(s.name)+' · '+s.id+'</h4><p>'+esc(s.city)+' · '+esc(s.area)+'</p><p><b>Operator:</b> '+esc(s.operator)+'</p><p><b>Connector:</b> '+esc(s.connector)+' · '+s.power+' kW</p><p><b>Sample tariff:</b> '+money(s.price)+'/kWh</p><p><b>Status report age:</b> '+esc(s.reported)+'</p><div class="field" style="margin:14px 0 8px"><label for="energyInput">Estimated energy (kWh)</label><input id="energyInput" type="number" min="0.5" max="100" step="0.5" value="10" style="max-width:150px;border:1px solid #d5dfd6;border-radius:11px;padding:10px"><p>Estimated energy cost only; real tariffs, taxes and fees may differ.</p></div><p class="amount" id="estimateAmount">'+money(s.price*10)+'</p><button class="btn dark small" type="button" id="reviewPayment">Review payment ↗</button><p class="fine">Demo record only. Status does not confirm the charger is currently available. No charging session is started.</p></div>';
+      document.getElementById("energyInput").addEventListener("input",()=>{const kwh=Math.min(100,Math.max(.5,Number(document.getElementById("energyInput").value)||.5));document.getElementById("estimateAmount").textContent=money(kwh*s.price);});
+      document.getElementById("reviewPayment").addEventListener("click",showPaymentReview);
+      if(map&&markers[s.id]){map.setView([s.lat,s.lng],12);markers[s.id].openPopup();}
+      if(scroll)result.scrollIntoView({behavior:"smooth",block:"nearest"});
     }
-    function reviewPayment(){
+    function showPaymentReview(){
       if(!activeStation)return;
-      const energy=Math.max(1,Math.min(100,Number(document.getElementById("energyInput").value)||10));
-      const amount=Number((energy*activeStation.price).toFixed(2));
-      output.innerHTML='<div class="session-detail"><span class="tag warn">PAYMENT SIMULATION</span><h4>Review your charging payment</h4><p><strong>Station:</strong> '+escapeText(activeStation.name)+' · '+escapeText(activeStation.id)+'</p><p><strong>Energy estimate:</strong> '+energy.toFixed(1)+' kWh</p><p><strong>Estimated total:</strong> <span style="font-size:1.25rem;font-weight:850">₹'+amount.toFixed(2)+'</span></p><div class="payment-choice"><strong>Payment method</strong><p style="margin:5px 0 0">UPI · demo only</p><span class="note">No UPI app is opened and no money will be collected.</span></div><button class="button dark small" id="simulatePayment" type="button">Simulate UPI payment</button> <button class="button secondary small" id="backToStation" type="button">Back</button><p class="notice">In production, this step would require a supported payment-provider flow and authorization from the charging operator before a real session could start.</p></div>';
-      document.getElementById("simulatePayment").addEventListener("click",()=>completeDemoPayment(activeStation,energy,amount));
-      document.getElementById("backToStation").addEventListener("click",()=>{output.innerHTML="";});
-      output.scrollIntoView({behavior:"smooth",block:"nearest"});
+      const energy=Math.min(100,Math.max(.5,Number(document.getElementById("energyInput").value)||10));
+      const total=Number((energy*activeStation.price).toFixed(2));
+      const s=activeStation;
+      document.getElementById("paymentResult").innerHTML='<div class="result-box" style="background:#fff"><span class="status uncertain">PAYMENT SIMULATION</span><h4>Review before continuing</h4><p><b>Station:</b> '+esc(s.name)+' · '+s.id+'</p><p><b>Estimated energy:</b> '+energy.toFixed(1)+' kWh</p><p><b>Estimated amount:</b></p><div class="amount">'+money(total)+'</div><div class="field" style="margin-top:13px"><label for="upiApp">Preferred UPI app (demo only)</label><select id="upiApp" style="width:100%;border:1px solid #d5dfd6;border-radius:11px;padding:11px;background:#fff"><option>Any supported UPI app / bank</option><option>BHIM UPI</option><option>Google Pay</option><option>PhonePe</option><option>Paytm</option></select><p>In production, this would hand off to an authorised provider, after the operator accepts the session.</p></div><button class="btn dark small" id="simulatePay" type="button">Simulate UPI hand-off ↗</button><button class="btn light small" id="cancelPay" type="button">Back</button><div class="flow-note">This button does not open a bank app or UPI intent. No UPI PIN, OTP, account details or card details are needed here. No money will move.</div></div>';
+      document.getElementById("simulatePay").addEventListener("click",()=>simulatePayment(s,energy,total,document.getElementById("upiApp").value));
+      document.getElementById("cancelPay").addEventListener("click",()=>{document.getElementById("paymentResult").innerHTML="";});
+      document.getElementById("paymentResult").scrollIntoView({behavior:"smooth",block:"nearest"});
     }
-    function completeDemoPayment(station,energy,amount){
-      const hist=JSON.parse(sessionStorage.getItem("chargepeDemoHistory")||"[]");
-      hist.unshift({id:station.id,name:station.name,area:station.area,kwh:energy,amount:amount,time:new Date().toLocaleString(),type:"SIMULATED"});
-      sessionStorage.setItem("chargepeDemoHistory",JSON.stringify(hist.slice(0,8)));
-      output.innerHTML='<div class="payment-success"><span class="tag">DEMO CONFIRMATION</span><h4>Demo payment flow completed</h4><p><strong>Reference:</strong> DEMO-'+escapeText(station.id)+'-'+Date.now().toString().slice(-6)+'</p><p><strong>Estimated amount:</strong> ₹'+amount.toFixed(2)+'</p><p>This is only a simulated result stored in this browser session. <strong>No money moved, no UPI transaction occurred, and no charging session started.</strong></p><button class="button dark small" id="newScan" type="button">Scan another station</button></div>';
-      document.getElementById("newScan").addEventListener("click",()=>{result.innerHTML="";output.innerHTML="";document.getElementById("stationCode").value="";activeStation=null;});
-      notify("Demo flow complete — no real payment was made.");
+    function simulatePayment(s,energy,total,method){
+      const ref="DEMO-"+s.id+"-"+String(Date.now()).slice(-6);
+      document.getElementById("paymentResult").innerHTML='<div class="pay-success"><span class="status">DEMO COMPLETE</span><h4>Payment hand-off simulation finished</h4><p><b>Demo reference:</b> '+ref+'</p><p><b>Method selected:</b> '+esc(method)+'</p><p><b>Estimated amount:</b> '+money(total)+' for '+energy.toFixed(1)+' kWh</p><div class="flow-note"><b>No real transaction occurred.</b> No bank or UPI app was opened, no funds were collected, and no charging session started.</div><button class="btn dark small" type="button" id="newStation">Try another station</button></div>';
+      document.getElementById("newStation").addEventListener("click",()=>{document.getElementById("stationCode").value="";document.getElementById("stationResult").innerHTML="";document.getElementById("paymentResult").innerHTML="";activeStation=null;});
+      notify("Simulation complete — no real payment was made.");
     }
-    function render(){
-      if(!list||!search)return;
-      const q=search.value.trim().toLowerCase();
-      const rows=stations.filter(s=>(filter==="all"||s.status===filter)&&(!q||[s.name,s.area,s.operator,s.connector,s.id].some(v=>v.toLowerCase().includes(q))));
-      list.innerHTML=rows.length?rows.map(s=>'<article class="charger"><div><h4>'+escapeText(s.name)+'</h4><div class="meta">'+escapeText(s.area)+' · '+escapeText(s.operator)+'</div><div class="meta">'+escapeText(s.connector)+' · '+s.power+' kW · '+escapeText(s.id)+'</div><span class="tag '+(s.status==="uncertain"?"warn":"")+'">'+(s.status==="working"?"Recently reported working":"Unconfirmed status")+' · '+escapeText(s.reported)+'</span></div><div class="charger-actions"><strong>₹'+s.price.toFixed(2)+'<small>/kWh · indicative</small></strong><button class="button dark small" type="button" data-station="'+s.id+'">Use this demo code</button></div></article>').join(""):'<div class="empty">No sample chargers match that search. Try another area or choose “All statuses”.</div>';
-      list.querySelectorAll("[data-station]").forEach(btn=>btn.addEventListener("click",()=>{document.getElementById("stationCode").value=btn.dataset.station;handleStationPayload(btn.dataset.station,"Sample station selected");}));
+    async function startScanner(){
+      if(!window.isSecureContext){notify("Camera scanning requires HTTPS. Use a sample station code instead.");return;}
+      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){notify("Camera access is unavailable. Use a sample station code.");return;}
+      if(!("BarcodeDetector" in window)){notify("This browser does not support camera QR detection here. Use a sample station code.");return;}
+      try{
+        const detector=new BarcodeDetector({formats:["qr_code"]});
+        cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+        document.getElementById("scannerVideo").srcObject=cameraStream;
+        document.getElementById("cameraBox").hidden=false;document.getElementById("stopScanner").hidden=false;
+        await document.getElementById("scannerVideo").play();scannerOn=true;notify("Camera ready. Scan a QR containing a sample ChargePe station ID.");
+        async function loop(){
+          if(!scannerOn)return;
+          try{const found=await detector.detect(document.getElementById("scannerVideo"));if(found&&found.length){stopScanner();document.getElementById("stationCode").value=found[0].rawValue;identifyStation(found[0].rawValue,true);return;}}catch(e){}
+          if(scannerOn)raf=requestAnimationFrame(loop);
+        }
+        raf=requestAnimationFrame(loop);
+      }catch(e){stopScanner();notify(e&&e.name==="NotAllowedError"?"Camera permission was denied. Enter a sample code instead.":"Could not open camera. Enter a sample code instead.");}
     }
+    function stopScanner(){scannerOn=false;if(raf!==null){cancelAnimationFrame(raf);raf=null;}if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}const v=document.getElementById("scannerVideo");if(v)v.srcObject=null;document.getElementById("cameraBox").hidden=true;document.getElementById("stopScanner").hidden=true;}
     document.getElementById("startScanner").addEventListener("click",startScanner);
     document.getElementById("stopScanner").addEventListener("click",stopScanner);
-    document.getElementById("lookupStation").addEventListener("click",()=>handleStationPayload(document.getElementById("stationCode").value,"Demo code entered"));
-    document.getElementById("stationCode").addEventListener("keydown",e=>{if(e.key==="Enter")handleStationPayload(e.currentTarget.value,"Demo code entered");});
-    document.querySelectorAll("[data-demo-code]").forEach(btn=>btn.addEventListener("click",()=>{document.getElementById("stationCode").value=btn.dataset.demoCode;handleStationPayload(btn.dataset.demoCode,"Sample station selected");}));
-    if(document.getElementById("search")){document.getElementById("searchBtn").addEventListener("click",render);search.addEventListener("input",render);}
-    document.querySelectorAll("[data-filter]").forEach(btn=>btn.addEventListener("click",()=>{filter=btn.dataset.filter;document.querySelectorAll("[data-filter]").forEach(b=>b.classList.toggle("active",b===btn));render();}));
-    const promptInput=document.getElementById("chargePePrompt");
-    const demoCity=document.getElementById("aiDemoCity");
-    const aiSearchResults=document.getElementById("aiSearchResults");
-    const aiResultTitle=document.getElementById("aiResultTitle");
-    const aiResultSubtitle=document.getElementById("aiResultSubtitle");
-    function answerChargePeQuery(){
-      const raw=promptInput.value.trim();
-      if(!raw){aiResultTitle.textContent="What do you need?";aiResultSubtitle.textContent="Enter a question or choose one of the examples.";aiSearchResults.innerHTML='<div class="empty">Try “Find the cheapest charger nearby”.</div>';return;}
-      const q=raw.toLowerCase();
-      const cities=["bengaluru","bangalore","pune","indore","hyderabad"];
-      let city=null;
-      if(q.includes("bengaluru")||q.includes("bangalore")) city="Bengaluru";
-      else if(q.includes("pune")) city="Pune";
-      else if(q.includes("indore")) city="Indore";
-      else if(q.includes("hyderabad")) city="Hyderabad";
-      const nearby=/(near me|nearby|closest|nearest|around me|near my location)/.test(q);
-      if(!city && nearby) city=demoCity.value;
-      const cheap=/(cheap|cheapest|lowest price|low cost|affordable|budget)/.test(q);
-      const fast=/(fastest|fast charger|high power|quick charge|highest power)/.test(q);
-      const working=/(working|operational|available|reliable|reliability|confirmed)/.test(q);
-      const connector=(q.match(/\b(ccs2|ccs|type\s?2|chademo|gb\/t)\b/)||[])[0];
-      const knownOperators=[...new Set(stations.map(s=>s.operator))];
-      const matchedOperator=knownOperators.find(op=>q.includes(op.toLowerCase()));
-      const knownExternal=["tata power","electricpe","chargezone","jio-bp","statiq","bolt.earth","kazam","chargeindia"];
-      const externalOperator=knownExternal.find(op=>q.includes(op));
-      const noLiveMessage=externalOperator
-        ? 'No sample listing is available for "'+escapeText(externalOperator)+'". ChargePe has not connected to that operator in this prototype; a real search needs an approved station-data/API connection.'
-        : null;
-      let rows=stations.slice();
-      if(city) rows=rows.filter(s=>s.area===city);
-      if(matchedOperator) rows=rows.filter(s=>s.operator.toLowerCase()===matchedOperator.toLowerCase());
-      if(externalOperator && !matchedOperator) rows=[];
-      if(connector){
-        const wanted=connector.toLowerCase().replace(/\s/g,"");
-        rows=rows.filter(s=>{const have=s.connector.toLowerCase().replace(/\s/g,"");return have===wanted || (wanted==="ccs"&&have==="ccs2");});
-      }
-      if(working) rows=rows.filter(s=>s.status==="working");
-      if(cheap) rows.sort((a,b)=>a.price-b.price);
-      else if(fast) rows.sort((a,b)=>b.power-a.power);
-      else if(working) rows.sort((a,b)=>a.reportedMinutes-b.reportedMinutes);
-      else if(nearby) rows.sort((a,b)=>(a.reportedMinutes)-(b.reportedMinutes));
-      aiResultTitle.textContent=cheap?"Lowest-price sample matches":fast?"Higher-power sample matches":working?"Recently reported working samples":"Matching sample chargers";
-      const scope=city?(nearby&&!q.includes(city.toLowerCase())&&!q.includes("bangalore")?"Using demo location: "+city:"Location: "+city):"Across all demo locations";
-      const criteria=[cheap?"sorted by indicative price":null,fast?"sorted by charging power":null,working?"only recently reported-working samples":null,matchedOperator?"operator: "+matchedOperator:null,connector?"connector: "+connector.toUpperCase():null].filter(Boolean);
-      aiResultSubtitle.textContent=scope+(criteria.length?" · "+criteria.join(" · "):"");
-      let explain='<div class="ai-explain">I interpreted your request'+(city?' for <strong>'+escapeText(city)+'</strong>':' across the demo directory')+'. '+(cheap?'Cheapest means lowest illustrative ₹/kWh. ':fast?'Fastest means highest listed demo power in kW. ':working?'Working means the sample record is marked recently reported working. ':'')+'These are examples, not verified live results.</div>';
-      if(noLiveMessage){
-        aiSearchResults.innerHTML=explain+'<div class="query-warning">'+noLiveMessage+'</div>';
-        return;
-      }
-      if(!rows.length){
-        aiSearchResults.innerHTML=explain+'<div class="empty">No sample stations match all those conditions. Try another demo city, operator, connector, or a broader query. Live operator networks are not connected yet.</div>';
-        return;
-      }
-      aiSearchResults.innerHTML=explain+'<div class="ai-result-list">'+rows.slice(0,4).map(s=>{
-        const status=s.status==="working"?'Recently reported working':'Unconfirmed status';
-        const reason=cheap?'Lowest listed demo price':fast?'Highest listed demo power':working?'Marked working in sample data':matchedOperator?'Operator match':city?'Location match':'Sample directory match';
-        return '<article class="ai-result-card"><div><h3>'+escapeText(s.name)+'</h3><p>'+escapeText(s.area)+' · '+escapeText(s.operator)+'</p><p>'+escapeText(s.connector)+' · '+s.power+' kW · '+escapeText(s.id)+'</p><p>'+status+' · last report '+escapeText(s.reported)+'</p><span class="ai-match-reason">'+reason+'</span></div><div class="ai-result-price">₹'+s.price.toFixed(2)+'<small>per kWh · demo tariff</small><button class="button dark small" type="button" data-ai-station="'+s.id+'">Open station flow</button></div></article>';
-      }).join("")+'</div><div class="query-warning">Prices and status are fabricated sample data. “Nearby” uses a selected demo city, not live GPS. No live availability check or payment is performed.</div>';
-      aiSearchResults.querySelectorAll("[data-ai-station]").forEach(btn=>btn.addEventListener("click",()=>{document.getElementById("stationCode").value=btn.dataset.aiStation;handleStationPayload(btn.dataset.aiStation,"Opened from AI-style search");document.getElementById("explore").scrollIntoView({behavior:"smooth"});}));
+    document.getElementById("lookupStation").addEventListener("click",()=>identifyStation(document.getElementById("stationCode").value,true));
+    document.getElementById("stationCode").addEventListener("keydown",e=>{if(e.key==="Enter")identifyStation(e.currentTarget.value,true);});
+    window.addEventListener("pagehide",stopScanner);
+    ["stationSearch","cityFilter","connectorFilter","statusFilter"].forEach(id=>document.getElementById(id).addEventListener(id==="stationSearch"?"input":"change",renderStations));
+    function addBubble(text,type){
+      const b=document.createElement("div");b.className="bubble "+type;b.textContent=text;
+      document.getElementById("chatThread").appendChild(b);document.getElementById("chatThread").scrollTop=document.getElementById("chatThread").scrollHeight;return b;
     }
-    document.getElementById("askChargePe").addEventListener("click",answerChargePeQuery);
-    promptInput.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter")answerChargePeQuery();});
-    document.querySelectorAll("[data-query]").forEach(btn=>btn.addEventListener("click",()=>{promptInput.value=btn.dataset.query;answerChargePeQuery();}));
-        render();
+    function taraAnswer(query){
+      const q=query.toLowerCase();
+      let city=null;
+      if(q.includes("indore"))city="Indore";else if(q.includes("bengaluru")||q.includes("bangalore"))city="Bengaluru";else if(q.includes("pune"))city="Pune";else if(q.includes("hyderabad"))city="Hyderabad";
+      const conn=q.includes("ccs2")||q.includes("ccs")?"CCS2":(q.includes("type 2")||q.includes("type-2"))?"Type 2":null;
+      const cheapest=/cheap|cheapest|lowest|afford|budget|price|cost/.test(q);
+      const fastest=/fast|fastest|power|quick|speed/.test(q);
+      const working=/working|available|reliable|status|fresh|operational/.test(q);
+      let rows=stations.filter(s=>(!city||s.city===city)&&(!conn||s.connector===conn));
+      if(working)rows=rows.filter(s=>s.status==="working");
+      if(cheapest)rows.sort((a,b)=>a.price-b.price);else if(fastest)rows.sort((a,b)=>b.power-a.power);else if(working)rows.sort((a,b)=>a.minutes-b.minutes);
+      if(/10\s*kwh|10 units/.test(q))rows.sort((a,b)=>a.price-b.price);
+      if(!rows.length)return "I couldn't find a match in the sample directory"+(city?" for "+city:"")+(conn?" with "+conn:"")+". Try a different city or remove a filter. I do not have live operator feeds connected.";
+      const top=rows.slice(0,3);
+      let answer="I checked the sample directory"+(city?" for "+city:" across the demo cities")+". ";
+      if(cheapest)answer+="I ranked matches by illustrative ₹/kWh. ";
+      else if(fastest)answer+="I ranked matches by listed demo power, not guaranteed delivered speed. ";
+      else if(working)answer+="I kept only sample records labelled recently reported working. That is not a live availability check. ";
+      if(/10\s*kwh|10 units/.test(q)){const s=top[0];answer+="For 10 kWh at "+s.name+", the estimate is "+money(s.price*10)+" before any actual taxes or fees. ";}
+      answer+="These are the best matching demo records:";
+      const listing=top.map(s=>s.name+" ("+s.city+") — "+s.connector+", "+s.power+" kW, "+money(s.price)+"/kWh; "+(s.status==="working"?"sample report "+s.reported:"unconfirmed; last report "+s.reported)+".").join("\n");
+      return answer+"\n\n"+listing+"\n\nReminder: locations, prices and status reports are illustrative. I don't have live GPS, charger telemetry or real operator data.";
+    }
+    document.getElementById("chatForm").addEventListener("submit",e=>{
+      e.preventDefault();const inp=document.getElementById("chatPrompt");const q=inp.value.trim();if(!q)return;addBubble(q,"user");addBubble(taraAnswer(q),"bot");inp.value="";
+    });
+    document.querySelectorAll("[data-chat]").forEach(b=>b.addEventListener("click",()=>{const inp=document.getElementById("chatPrompt");inp.value=b.dataset.chat;document.getElementById("chatForm").requestSubmit();}));
+    initMap();renderStations();
   </script>
 </body>
 </html>
