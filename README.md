@@ -28,9 +28,11 @@ These are project goals, not claims of existing integrations.
 
 ### Phase 2 — Interactive demo
 - Sample charger directory with connector, operator, price, and reported-status fields.
-- QR-code flow using demo station IDs.
-- Simulated charging session with a timer and estimated cost.
-- Session history and sample fleet summary.
+- Natural-language charger finder that interprets queries such as “cheapest nearby”, “working chargers”, connector type, charging power, and a named sample operator.
+- A selected demo city for “near me” queries; it does not use GPS or claim real distance.
+- Station QR scan flow with manual demo-code fallback.
+- Simulated charging-session review and UPI-style payment confirmation; no money moves.
+- Session history saved only in the browser session.
 - Clear demo labels wherever data or actions are simulated.
 
 ### Phase 3 — Reliability and AI experiments
@@ -57,7 +59,7 @@ No live charging, payment collection, stored-value wallet, or operator integrati
 - Front end: responsive HTML, CSS, and JavaScript for the first prototype.
 - Hosting: GitHub Pages.
 - Maps and station data: sample data initially; open data sources will be assessed before use.
-- AI: optional and introduced only after the core demo works.
+- AI discovery: currently a local, rule-based natural-language search prototype; no external AI model or live charging API is called.
 
 The stack may change as the prototype develops.
 
