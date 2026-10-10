@@ -85,6 +85,10 @@ OCPI is an established open interface for roaming between charge point operators
 2. Open index.html in a browser, or use a local static server.
 3. An internet connection is needed for external map tiles. The demo directory and forms are otherwise static browser code.
 
+## Validation and integration checklist
+
+See [docs/VALIDATION.md](docs/VALIDATION.md) for the current Open Charge Map data/licensing checklist, safe Claude API integration plan, and a structured interview script for EV drivers in Indore. These are next steps; neither live OCM data nor a Claude API call is currently integrated.
+
 ## Roadmap
 
 1. Conduct driver interviews and competitor-flow teardown; choose a first user segment.
