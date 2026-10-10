@@ -1,6 +1,6 @@
 # ChargePe
 
-**One charging experience across EV networks — starting with a prototype.**
+**An open-source EV-charging interoperability prototype for India, with QR-based session flows, charger-reliability signals, and AI-assisted cost insights.**
 
 ChargePe is a student-led project exploring a simpler way to discover EV charging stations, scan a station QR code, view charging details, and move through a consistent charging workflow across participating networks.
 
