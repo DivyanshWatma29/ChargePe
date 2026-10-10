@@ -34,7 +34,7 @@ Implementation plan:
 5. Keep sample tariffs and live charging availability separate: OCM station listings do not automatically provide live charger status, current tariffs, operator authorization, or payment capability.
 6. Only replace the corresponding fictional map markers after data coverage and terms are checked. Do not present an OCM location as currently working unless a trusted, recent source supports that claim.
 
-## 3. No-key alternative selected: local rules-based TARA
+## 3. Claude Worker scaffold added; deployment still required\n\nA Cloudflare Worker implementation is committed under `worker/`. It reads `ANTHROPIC_API_KEY` only from a server-side secret, limits input size, accepts only the ChargePe website origin, sanitises station fields and instructs Claude not to present sample records as verified facts. The frontend can call it after `TARA_API_URL` is set.\n\nStatus: code committed, **not deployed or live-tested**. The Worker URL, secret, account-level limits and Anthropic billing/credits have not been configured or verified. Cloudflare offers a free Workers tier within published limits, but Claude API usage may cost money. See `worker/README.md`.\n\n## 4. No-key alternative selected: local rules-based TARA
 
 The current TARA assistant is the zero-cost alternative for this prototype. It runs in the browser and ranks the sample records using deterministic rules; it does not need a model API key, server, or paid inference. Keep this as the default while validating the user experience.
 
@@ -42,7 +42,7 @@ Trade-off: this is not generative AI and it only reasons over the sample station
 
 A browser-local model (for example WebLLM) is another possible experiment, but it requires WebGPU support and a large first model download, which makes it a poor default for a low-spec laptop/mobile audience. Defer it unless device capability and UX testing justify the cost in bandwidth and complexity.
 
-## 4. Optional Claude API integration
+## 5. Optional further Claude API integration
 
 Status: not implemented in this static website. It is optional, not a blocker for continuing the prototype.
 
@@ -60,7 +60,7 @@ Minimal first milestone:
 
 Cost note: API usage may incur charges. Verify current Console credits and pricing before making calls; a free Console account does not guarantee free API usage.
 
-## 5. Driver interviews — 10 conversations in Indore
+## 6. Driver interviews — 10 conversations in Indore
 
 Recruit volunteers and ask for consent to record notes. Do not collect names, phone numbers, vehicle registration numbers or precise home/work addresses unless necessary and separately consented to.
 
@@ -87,11 +87,11 @@ After each interview, record:
 
 Do not fabricate responses. Summarise themes only after completing interviews. A waitlist is a separate signal and should count only real, opt-in signups.
 
-## 6. Founding team
+## 7. Founding team
 
 The user has confirmed that ChargePe is being built by Divyansh Watma and his brother. The brother's name and role have not yet been supplied. Add those details only after confirmation.
 
-## 7. Legal registration
+## 8. Legal registration
 
 ChargePe was described by its founder as not legally registered. No registration was performed by this project work. If the founders decide to formalise the business, compare current Indian incorporation/LLP requirements and costs with a qualified chartered accountant or company secretary. Do not claim registration or enter an incorporation date until it is true.
 
@@ -106,7 +106,7 @@ ChargePe was described by its founder as not legally registered. No registration
 - [ ] India/Indore OCM records checked and licensing reviewed record by record.
 - [x] Community-mapped OSM records can be loaded and displayed as distinct map markers; not an operator feed.
 - [ ] OCM/operator-backed station data and tariffs integrated.
-- [x] Retained local rules-based TARA as the no-key, zero-inference-cost alternative for the prototype.
+- [x] Retained local rules-based TARA as the no-key, zero-inference-cost fallback.\n- [x] Committed a serverless Claude Worker scaffold; it is not deployed/configured/live yet.
 - [ ] Optional Claude API key/credits verified if founders later decide the benefits justify the cost.
 - [ ] Optional server-side Claude endpoint implemented and tested.
 - [ ] Ten driver interviews completed and results documented.
