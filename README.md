@@ -71,7 +71,7 @@ Every station shown on the website is fictional sample data for demonstrating th
 - Current app: static HTML, CSS and JavaScript; no package install required.
 - Map: Leaflet with OpenStreetMap tiles. The default pins remain illustrative. An optional, user-triggered Overpass query can show community-mapped OSM charging locations for four cities without an API key; results may be incomplete and do not include verified live availability or tariff data. Internet access is required.
 - QR camera: depends on secure HTTPS, user permission and browser support for BarcodeDetector. Enter the demo ID when camera scanning is unavailable.
-- Chat: TARA is a local rules-based demonstration. It does not call a production AI model.
+- Chat: TARA is a local rules-based demonstration. It is the current no-key, zero-inference-cost alternative to a hosted model; it is not generative AI and only uses sample records.
 - Payment: the UI only simulates a future hand-off. It never asks for a UPI PIN, OTP, bank password or card details.
 
 ### Potential integration paths
@@ -95,7 +95,7 @@ See [docs/VALIDATION.md](docs/VALIDATION.md) for the no-key OSM alternative and 
 2. Define reliability data provenance, confidence and report-expiry rules.
 3. Validate cost-estimate and QR/payment-copy comprehension with users.
 4. Specify backend station/operator interfaces and obtain data/API access.
-5. Evaluate production AI only after trustworthy data is available.
+5. Keep rules-based TARA while validating the flow; evaluate production AI only after trustworthy data is available and costs/keys are available.
 6. Integrate payments and any real charger controls only with approved providers, operator authorisation, security review and reconciliation.
 
 ## Contributing
