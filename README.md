@@ -6,7 +6,7 @@ ChargePe is an early-stage open-source product project exploring a reliability-f
 
 The product thesis is deliberately narrower than “put every charger on a map”: make it easier to judge what is known about a station, how recent that information is, what a session might cost, and what happens next. This thesis still needs validation with drivers, fleets, and charging operators.
 
-> **Status:** Hosted interactive prototype. It contains illustrative sample stations, rates, locations and status reports. It does not connect to live EV charging networks, verify station availability, use live GPS, contact payment networks, start/stop a charger, move money, or call an external AI model.
+> **Legal status:** ChargePe is not legally registered as of the last founder-confirmed update. It is an early-stage project, not an incorporated company. Do not state an incorporation date unless registration has actually occurred.\n>\n> **Status:** Hosted interactive prototype. It contains illustrative sample stations, rates, locations and status reports. It does not connect to live EV charging networks, verify station availability, use live GPS, contact payment networks, start/stop a charger, move money, or call an external AI model.
 
 ## Product preview
 
@@ -71,7 +71,7 @@ Every station shown on the website is fictional sample data for demonstrating th
 - Current app: static HTML, CSS and JavaScript; no package install required.
 - Map: Leaflet with OpenStreetMap tiles. The default pins remain illustrative. An optional, user-triggered Overpass query can show community-mapped OSM charging locations for four cities without an API key; results may be incomplete and do not include verified live availability or tariff data. Internet access is required.
 - QR camera: depends on secure HTTPS, user permission and browser support for BarcodeDetector. Enter the demo ID when camera scanning is unavailable.
-- Chat: TARA is a local rules-based demonstration. It is the current no-key, zero-inference-cost alternative to a hosted model; it is not generative AI and only uses sample records.
+- Chat: TARA defaults to local rules-based matching. An optional Cloudflare Worker backend has been added in `worker/` for a server-side Claude API call; it is not live until the Worker is deployed, its Anthropic key is configured as a secret, and `TARA_API_URL` is set in `index.html`. The frontend falls back to local rules when the endpoint is not configured or fails.
 - Payment: the UI only simulates a future hand-off. It never asks for a UPI PIN, OTP, bank password or card details.
 
 ### Potential integration paths
@@ -87,7 +87,7 @@ OCPI is an established open interface for roaming between charge point operators
 
 ## Validation and integration checklist
 
-See [docs/VALIDATION.md](docs/VALIDATION.md) for the no-key OSM alternative and its limits, the optional Open Charge Map data/licensing checklist, a safe Claude API integration plan, and a structured interview script for EV drivers in Indore. The OSM lookup is implemented; operator-verified feeds, tariffs, and a Claude API call are not integrated.
+See [docs/VALIDATION.md](docs/VALIDATION.md) for the no-key OSM alternative and its limits, the optional Open Charge Map data/licensing checklist, the serverless Claude Worker setup in [worker/README.md](worker/README.md), and a structured interview script for EV drivers in Indore. The OSM lookup is implemented in code but has not yet been verified on the deployed site. Operator-verified feeds and tariffs are not integrated. The Claude Worker code is committed but not deployed/configured, so a live Claude call is not yet active.
 
 ## Roadmap
 
@@ -106,7 +106,7 @@ Contact: **contact@chargepe.me**
 
 ## Team
 
-ChargePe is being built by two co-founders: Divyansh Watma and his brother. Divyansh leads product direction and the prototype. The second co-founder's name and specific role will be added after confirmation.
+ChargePe is an unregistered project being developed by Divyansh Watma and his brother. Divyansh leads product direction and the prototype. The second co-founder's name and specific role will be added after confirmation.
 
 ## License
 
