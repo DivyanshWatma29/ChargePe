@@ -1,80 +1,77 @@
 # ChargePe
 
-**An open-source EV-charging interoperability prototype for India, with QR-based session flows, charger-reliability signals, and AI-assisted cost insights.**
+**One interface for EV charging discovery, station QR flows, and charging insights across participating networks.**
 
-ChargePe is a student-led project exploring a simpler way to discover EV charging stations, scan a station QR code, view charging details, and move through a consistent charging workflow across participating networks.
+ChargePe is an open-source project building toward a simpler EV charging experience in India. The goal is to let drivers discover compatible chargers, scan the QR code installed at a station, review session details, and eventually pay through supported operator integrations—all through one consistent interface.
 
-The long-term vision is cross-network EV charging in India. This repository starts with a transparent, no-cost prototype and does **not** claim to connect to live chargers, operator networks, UPI payments, or automatic refunds.
+The project also explores charger-reliability signals, natural-language station discovery, and fleet-friendly charging records.
 
-## Why ChargePe?
+> **Project status:** Early-stage prototype. The current hosted demo uses sample data and simulated session/payment flows. It is not connected to live charging networks, real-time charger telemetry, GPS-based station ranking, UPI payments, or production AI APIs.
 
-EV drivers may have to navigate different charging networks, apps, and payment experiences. ChargePe explores how a single interface could make discovery, charging-session information, reliability signals, and billing easier to understand.
+## Product direction
 
-The project plan prioritizes:
-- QR-based station entry and a consistent charging flow.
-- Clear charger details and reliability signals.
-- A driver experience that can eventually span participating networks.
-- Fleet-friendly session history and consolidated billing concepts.
-- AI-assisted charger comparison and charging-cost insights.
+- **Unified discovery:** Search for chargers by location, operator, connector, charging power, and indicative cost.
+- **Station QR workflow:** Scan a QR code at a charger to identify its station and connector.
+- **Natural-language search:** Ask for the cheapest nearby charger, a high-power CCS2 station, or chargers from a named operator.
+- **Reliability signals:** Make status freshness and uncertainty visible rather than treating stale reports as proof that a charger works.
+- **Charging records:** Explore session history and consolidated fleet reporting.
+- **AI-assisted guidance:** Explain comparisons and estimates using available, traceable data.
 
-These are project goals, not claims of existing integrations.
+## Hosted prototype
 
-## Prototype roadmap
+The public landing page is intended to be hosted at **[chargepe.me](https://chargepe.me)** through GitHub Pages.
 
-### Phase 1 — Public landing page
-- Explain the problem, vision, and project status.
-- Link to the source code and contact email.
-- Work with GitHub Pages and the custom domain `chargepe.me`.
+The prototype currently demonstrates:
+- A sample charger directory and filters.
+- Rule-based natural-language query matching over sample records.
+- A selected demo city for “near me” queries.
+- Station-code / QR workflow for sample IDs.
+- Estimated session cost and a simulated UPI-style confirmation.
+- Sample-data explanations for charger reliability and charging costs.
 
-### Phase 2 — Interactive demo
-- Sample charger directory with connector, operator, price, and reported-status fields.
-- Natural-language charger finder that interprets queries such as “cheapest nearby”, “working chargers”, connector type, charging power, and a named sample operator.
-- A selected demo city for “near me” queries; it does not use GPS or claim real distance.
-- Station QR scan flow with manual demo-code fallback.
-- Simulated charging-session review and UPI-style payment confirmation; no money moves.
-- Session history saved only in the browser session.
-- Clear demo labels wherever data or actions are simulated.
+All sample prices, locations, operators, status reports, and payment confirmations are illustrative. No money is transferred and no charger is started.
 
-### Phase 3 — Reliability and AI experiments
-- Capture user-submitted charger status reports in a demo dataset.
-- Show freshness and confidence for status signals instead of claiming unknown chargers are operational.
-- Add an AI assistant for charger comparison and estimated-cost explanations, using sample data first.
+## Architecture and integration direction
 
-### Future work — subject to access and validation
-- Integrations with charging operators and interoperable networks such as UBC/Beckn or OCPI.
-- Real charger start/stop status and live availability.
-- Payment-provider integration and operator settlement.
-- Fleet invoicing and refund/dispute workflows.
+The first version is a static HTML, CSS, and JavaScript application. The longer-term architecture may add a backend, operator adapters, trusted station data, location services, payment-provider flows, and an AI service.
 
-These require third-party access, testing, and appropriate commercial and compliance review. They are not enabled by this prototype.
+Potential interoperability paths include **UBC/Beckn** and **OCPI**, subject to operator participation, API access, and technical validation. These are exploration targets, not current integrations.
 
-## Current status
+### Current capabilities vs. future services
 
-**Stage: early prototype / in development.**
+| Capability | Current prototype | Future direction |
+|---|---|---|
+| Charger search | Sample data and rule-based matching | Trusted multi-network station feeds |
+| Nearby search | Selected demo city | User-authorized location and distance ranking |
+| QR identification | Sample station IDs | Operator-backed station/connector resolution |
+| Charging session | Simulated flow | Authorized start/stop via operator integration |
+| Payment | Simulated confirmation only | Supported payment provider and operator settlement |
+| AI guidance | No external model call | AI grounded in current, sourced station data |
+| Fleet billing | Concept / sample UI direction | Reconciled operator sessions and invoices |
 
-No live charging, payment collection, stored-value wallet, or operator integration is provided by this repository at this stage. Do not use the prototype to make real charging or payment decisions.
+## Local development
 
-## Intended initial stack
+No package installation is required for the current static prototype.
 
-- Front end: responsive HTML, CSS, and JavaScript for the first prototype.
-- Hosting: GitHub Pages.
-- Maps and station data: sample data initially; open data sources will be assessed before use.
-- AI discovery: currently a local, rule-based natural-language search prototype; no external AI model or live charging API is called.
+1. Clone the repository:
+   `git clone https://github.com/DivyanshWatma29/ChargePe.git`
+2. Open `index.html` in a browser, or serve the folder with a local static server.
+3. Edit the HTML, CSS, and JavaScript, then commit your changes.
 
-The stack may change as the prototype develops.
+## Roadmap
 
-## Run locally
+1. Improve and test the driver journey with EV users.
+2. Validate the station data model and reliability-report freshness.
+3. Add location-aware discovery using a suitable data source.
+4. Design backend interfaces for station/operator adapters.
+5. Evaluate AI integration and supported payment flows only when data access and requirements are clear.
 
-This first landing page uses static files and requires no package installation.
+## Contributing
 
-1. Clone this repository.
-2. Open `index.html` in a browser, or run any static local server.
-3. GitHub Pages deployment instructions will be added after the site files are committed.
+Issues, product feedback, and pull requests are welcome. Please distinguish verified behavior from assumptions and clearly label any sample data or simulated integrations.
 
-## Contributing and feedback
+Contact: **contact@chargepe.me**
 
-Ideas, bug reports, and feedback are welcome. Contact: **contact@chargepe.me**.
+## License
 
-## Project principle
-
-**Be explicit about what is real, what is simulated, and what still requires operator integration.** ChargePe aims to make EV charging simpler without overstating current network coverage or payment capabilities.
+A license has not yet been selected. Until a license is added, do not assume that the repository is available for unrestricted reuse.
