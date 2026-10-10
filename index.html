@@ -81,6 +81,7 @@
               <button class="chip" type="button" data-demo-code="CP-102">Try CP-102</button>
               <button class="chip" type="button" data-demo-code="CP-311">Try CP-311</button>
               <button class="chip" type="button" data-demo-code="CP-409">Try CP-409</button>
+              <button class="chip" type="button" data-demo-code="CP-610">Try CP-610</button>
             </div>
             <p class="note">Demo code IDs only. In production, ChargePe must resolve a station QR through an approved operator or interoperability integration.</p>
             <div id="stationResult" aria-live="polite"></div>
@@ -162,6 +163,7 @@
       {id:"CP-207",name:"Indiranagar Market Hub",area:"Bengaluru",operator:"GreenRoute Mobility",connector:"CCS2",power:30,price:19.0,status:"uncertain",reported:"4 days ago",reportedMinutes:5760},
       {id:"CP-311",name:"Central Avenue Point",area:"Pune",operator:"CityVolt Demo",connector:"Type 2",power:22,price:16.5,status:"working",reported:"42 min ago",reportedMinutes:42},
       {id:"CP-409",name:"Ring Road Transit Hub",area:"Indore",operator:"DemoCharge Network",connector:"CCS2",power:50,price:18.0,status:"uncertain",reported:"6 days ago",reportedMinutes:8640},
+      {id:"CP-610",name:"Vijay Nagar Mobility Hub",area:"Indore",operator:"VoltWay Demo",connector:"CCS2",power:30,price:17.5,status:"working",reported:"26 min ago",reportedMinutes:26},
       {id:"CP-512",name:"Tech Park Slow Charger",area:"Hyderabad",operator:"GreenRoute Mobility",connector:"Type 2",power:7.4,price:14.5,status:"working",reported:"1 hour ago",reportedMinutes:60}
     ];
     let filter="all", cameraStream=null, scannerRunning=false, scanFrame=null, activeStation=null;
@@ -221,7 +223,7 @@
       output.innerHTML="";
       if(!s){
         activeStation=null;
-        result.innerHTML='<div class="session-detail"><h4>Station not recognized by this demo</h4><p>This prototype recognizes sample IDs such as <strong>CP-102</strong>, <strong>CP-311</strong>, and <strong>CP-409</strong>.</p><p class="notice">A real station QR must be resolved through an approved operator or interoperability integration. ChargePe cannot assume any arbitrary QR can start a charging session.</p></div>';
+        result.innerHTML='<div class="session-detail"><h4>Station not recognized by this demo</h4><p>This prototype recognizes sample IDs such as <strong>CP-102</strong>, <strong>CP-311</strong>, <strong>CP-409</strong>, and <strong>CP-610</strong>.</p><p class="notice">A real station QR must be resolved through an approved operator or interoperability integration. ChargePe cannot assume any arbitrary QR can start a charging session.</p></div>';
         return;
       }
       activeStation=s;
