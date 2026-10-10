@@ -2,7 +2,18 @@
 
 This document records the next steps that require real-world evidence or credentials. Do not describe these as completed until evidence has been collected.
 
-## 1. Open Charge Map (OCM) data
+## 1. No-key alternative implemented: OpenStreetMap + Overpass
+
+The prototype now has a **Load real mapped locations** action in the station directory. Choose Indore, Bengaluru, Pune or Hyderabad, then load community-mapped charging-station records from the public Overpass API. This path does not require an OCM API key.
+
+Important limitations:
+- OpenStreetMap is community-maintained; coverage and tagging vary by location.
+- The returned records are not operator-verified, and they do not establish current availability, tariff, connector compatibility or payment support.
+- The page labels unknown tariff and live availability separately. Users should verify with the operator before travelling.
+- Public Overpass instances are shared infrastructure, not a production SLA. The feature is user-triggered rather than continuously polling. For production scale, use a suitable data provider or host/cache a compliant service.
+- Map tiles and OpenStreetMap data have separate usage/licensing requirements. Keep visible attribution and review the [OpenStreetMap copyright/licence](https://www.openstreetmap.org/copyright).
+
+## 2. Optional Open Charge Map (OCM) data
 
 Official references:
 - API documentation: https://www.openchargemap.org/develop/api
@@ -23,7 +34,7 @@ Implementation plan:
 5. Keep sample tariffs and live charging availability separate: OCM station listings do not automatically provide live charger status, current tariffs, operator authorization, or payment capability.
 6. Only replace the corresponding fictional map markers after data coverage and terms are checked. Do not present an OCM location as currently working unless a trusted, recent source supports that claim.
 
-## 2. Claude API integration
+## 3. Claude API integration
 
 Status: not implemented in this static website.
 
@@ -41,7 +52,7 @@ Minimal first milestone:
 
 Cost note: API usage may incur charges. Verify current Console credits and pricing before making calls; a free Console account does not guarantee free API usage.
 
-## 3. Driver interviews — 10 conversations in Indore
+## 4. Driver interviews — 10 conversations in Indore
 
 Recruit volunteers and ask for consent to record notes. Do not collect names, phone numbers, vehicle registration numbers or precise home/work addresses unless necessary and separately consented to.
 
@@ -68,11 +79,11 @@ After each interview, record:
 
 Do not fabricate responses. Summarise themes only after completing interviews. A waitlist is a separate signal and should count only real, opt-in signups.
 
-## 4. Founding team
+## 5. Founding team
 
 The user has confirmed that ChargePe is being built by Divyansh Watma and his brother. The brother's name and role have not yet been supplied. Add those details only after confirmation.
 
-## 5. Legal registration
+## 6. Legal registration
 
 ChargePe was described by its founder as not legally registered. No registration was performed by this project work. If the founders decide to formalise the business, compare current Indian incorporation/LLP requirements and costs with a qualified chartered accountant or company secretary. Do not claim registration or enter an incorporation date until it is true.
 
@@ -81,10 +92,12 @@ ChargePe was described by its founder as not legally registered. No registration
 - [x] MIT license added to the repository.
 - [x] README updated to mention the two co-founders without inventing the brother's name/title.
 - [x] OCM API, licensing, attribution and fair-use requirements reviewed from official documentation.
+- [x] Added user-triggered, no-key OpenStreetMap/Overpass lookup for four cities; results are clearly marked as community data, not live availability.
 - [x] Interview script and evidence log template prepared.
 - [ ] OCM API key registered.
 - [ ] India/Indore OCM records checked and licensing reviewed record by record.
-- [ ] Live-source data integrated into the map.
+- [x] Community-mapped OSM records can be loaded and displayed as distinct map markers; not an operator feed.
+- [ ] OCM/operator-backed station data and tariffs integrated.
 - [ ] Claude API key/credits verified.
 - [ ] Server-side Claude endpoint implemented and tested.
 - [ ] Ten driver interviews completed and results documented.
