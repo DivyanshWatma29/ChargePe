@@ -9,13 +9,15 @@ ChargePe explores a single, simpler driver experience for discovering EV chargin
 Included:
 - Responsive landing page.
 - Search/filter over illustrative charger cards.
-- QR-like station-selection flow using demo station IDs.
-- User-entered energy estimate with arithmetic estimate.
+- Camera QR scan attempt where supported by the browser, with manual demo-code fallback.
+- Station resolution for sample IDs only.
+- Simulated energy estimate, payment review, and UPI-style demo confirmation.
 - Demo history stored in the browser session.
-- Rules-based AI-style sample insights for cost, reliability, and fleet spending.
+- Natural-language charger finder that ranks sample results by price or power and filters by demo city, sample operator, connector, and reported status.
+- Rules-based sample insights for cost and reliability; no external AI API is called.
 
 Not included:
-- Live station discovery or charger telemetry.
+- Live station discovery, GPS-ranked nearby results, or charger telemetry.
 - QR scanning through a camera.
 - Starting/stopping real charging sessions.
 - UPI collection, wallet, operator settlement, or refunds.
