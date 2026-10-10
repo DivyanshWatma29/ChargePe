@@ -104,9 +104,9 @@
       <div class="wrap">
         <div class="section-head"><div><div class="kicker">AI assistant concept</div><h2>Meet TARA.</h2></div><p>TARA stands for Trip & Range Assistant. Ask in plain language to shortlist the cheapest sample charger, find a higher-power connector, compare report freshness, or estimate charging cost.</p></div>
         <div class="ai-layout">
-          <div class="ai-intro"><span class="eyebrow"><span class="dot"></span> TARA · Trip & Range Assistant</span><h3>Ask a charging question.</h3><p>Instead of learning every filter, tell TARA what matters to you. It can explain its shortlist and show the data used for the estimate.</p><p><b>Current demo:</b> local rule-based matching over the six sample station records; no external AI model, live charger feed or GPS is connected.</p><div class="example-list"><button class="example" type="button" data-chat="Find the cheapest charger in Indore">Cheapest in Indore</button><button class="example" type="button" data-chat="Find the fastest CCS2 charger in Bengaluru">Fastest CCS2 in Bengaluru</button><button class="example" type="button" data-chat="Which stations were recently reported working?">Status freshness</button><button class="example" type="button" data-chat="How much would 10 kWh cost at the cheapest station?">Estimate 10 kWh</button></div><p class="note">Future AI direction: range-aware trip planning, tariff explanations, invoice anomaly flags, and evidence-based alternatives. These are planned ideas, not implemented services.</p></div>
+          <div class="ai-intro"><span class="eyebrow"><span class="dot"></span> TARA · Trip & Range Assistant</span><h3>Ask a charging question.</h3><p>Instead of learning every filter, tell TARA what matters to you. It can explain its shortlist and show the data used for the estimate.</p><p><b>Current mode:</b> local rule-based matching over six sample station records. Claude mode can be enabled after the serverless Worker is deployed, its API secret is configured, and <code>TARA_API_URL</code> is set. Neither mode has live charger telemetry or GPS.</p><div class="example-list"><button class="example" type="button" data-chat="Find the cheapest charger in Indore">Cheapest in Indore</button><button class="example" type="button" data-chat="Find the fastest CCS2 charger in Bengaluru">Fastest CCS2 in Bengaluru</button><button class="example" type="button" data-chat="Which stations were recently reported working?">Status freshness</button><button class="example" type="button" data-chat="How much would 10 kWh cost at the cheapest station?">Estimate 10 kWh</button></div><p class="note">Future AI direction: range-aware trip planning, tariff explanations, invoice anomaly flags, and evidence-based alternatives. These are planned ideas, not implemented services.</p></div>
           <div class="chat-card">
-            <div class="chat-head"><div class="tara-avatar">T</div><div><h3>TARA <span style="font-weight:500">by ChargePe</span></h3><p>Trip & Range Assistant · prototype</p></div><span class="chat-status">RULE-BASED DEMO</span></div>
+            <div class="chat-head"><div class="tara-avatar">T</div><div><h3>TARA <span style="font-weight:500">by ChargePe</span></h3><p>Trip & Range Assistant · prototype</p></div><span class="chat-status" id="taraModeBadge">LOCAL DEMO</span></div>
             <div id="chatThread" class="chat-thread" aria-live="polite"><div class="bubble bot">Hi, I’m TARA. Tell me your city, connector or price preference. I’ll explain matches from the sample directory and flag what isn’t verified live.</div></div>
             <form class="chat-input" id="chatForm"><input id="chatPrompt" type="text" placeholder="e.g. Cheapest CCS2 charger near Indore" aria-label="Ask TARA a charging question" autocomplete="off" required><button class="btn dark small" type="submit">Ask ↗</button></form>
           </div>
@@ -146,7 +146,7 @@
     ];
     const osmBounds = {Indore:"22.58,75.75,22.88,76.02",Bengaluru:"12.80,77.40,13.15,77.82",Pune:"18.35,73.70,18.68,74.02",Hyderabad:"17.25,78.25,17.58,78.65"};
     let osmMarkers = [], osmStations = [];
-    const byId = id => stations.find(s => s.id.toLowerCase() === String(id).toLowerCase());
+    // Set to the deployed Cloudflare Worker URL ending in /api/tara to enable Claude. Keep all API keys server-side.\n    const TARA_API_URL = "";\n    const byId = id => stations.find(s => s.id.toLowerCase() === String(id).toLowerCase());
     const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
     const money = n => "₹" + Number(n).toFixed(2);
     const toast = document.getElementById("toast");
@@ -314,8 +314,27 @@
       const listing=top.map(s=>s.name+" ("+s.city+") — "+s.connector+", "+s.power+" kW, "+money(s.price)+"/kWh; "+(s.status==="working"?"sample report "+s.reported:"unconfirmed; last report "+s.reported)+".").join("\n");
       return answer+"\n\n"+listing+"\n\nReminder: locations, prices and status reports are illustrative. I don't have live GPS, charger telemetry or real operator data.";
     }
-    document.getElementById("chatForm").addEventListener("submit",e=>{
-      e.preventDefault();const inp=document.getElementById("chatPrompt");const q=inp.value.trim();if(!q)return;addBubble(q,"user");addBubble(taraAnswer(q),"bot");inp.value="";
+    async function askTara(query){
+      if(!TARA_API_URL){
+        document.getElementById("taraModeBadge").textContent="LOCAL DEMO";
+        return taraAnswer(query);
+      }
+      document.getElementById("taraModeBadge").textContent="CLAUDE · CONNECTING";
+      try{
+        const response=await fetch(TARA_API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query,stations:stations.slice(0,12)})});
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok||!data.answer)throw new Error(data.error||"Claude service unavailable.");
+        document.getElementById("taraModeBadge").textContent="CLAUDE API";
+        return data.answer+"\\n\\nNote: "+(data.disclaimer||"Station data may be unverified.");
+      }catch(err){
+        document.getElementById("taraModeBadge").textContent="LOCAL FALLBACK";
+        return taraAnswer(query)+"\\n\\nClaude could not be reached; I used the local demo response instead. "+(err&&err.message?err.message:"Check the serverless endpoint configuration.");
+      }
+    }
+    document.getElementById("chatForm").addEventListener("submit",async e=>{
+      e.preventDefault();const inp=document.getElementById("chatPrompt");const q=inp.value.trim();if(!q)return;
+      addBubble(q,"user");const waiting=addBubble("Checking the configured assistant…","bot");inp.value="";
+      const answer=await askTara(q);waiting.textContent=answer;
     });
     document.querySelectorAll("[data-chat]").forEach(b=>b.addEventListener("click",()=>{const inp=document.getElementById("chatPrompt");inp.value=b.dataset.chat;document.getElementById("chatForm").requestSubmit();}));
     initMap();renderStations();
