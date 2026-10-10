@@ -100,6 +100,10 @@ Product feedback and issues are welcome. Clearly distinguish verified behavior f
 
 Contact: **contact@chargepe.me**
 
+## Team
+
+ChargePe is being built by two co-founders: Divyansh Watma and his brother. Divyansh leads product direction and the prototype. The second co-founder's name and specific role will be added after confirmation.
+
 ## License
 
-No license has been selected yet. Until a license is added, do not assume that the repository is available for unrestricted reuse.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for the full text. The license applies to this repository's project code; third-party services, libraries, map tiles and other external assets remain subject to their own terms.
