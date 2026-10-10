@@ -146,7 +146,9 @@
     ];
     const osmBounds = {Indore:"22.58,75.75,22.88,76.02",Bengaluru:"12.80,77.40,13.15,77.82",Pune:"18.35,73.70,18.68,74.02",Hyderabad:"17.25,78.25,17.58,78.65"};
     let osmMarkers = [], osmStations = [];
-    // Set to the deployed Cloudflare Worker URL ending in /api/tara to enable Claude. Keep all API keys server-side.\n    const TARA_API_URL = "";\n    const byId = id => stations.find(s => s.id.toLowerCase() === String(id).toLowerCase());
+    // Set to the deployed Cloudflare Worker URL ending in /api/tara to enable Claude. Keep all API keys server-side.
+    const TARA_API_URL = "";
+    const byId = id => stations.find(s => s.id.toLowerCase() === String(id).toLowerCase());
     const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
     const money = n => "₹" + Number(n).toFixed(2);
     const toast = document.getElementById("toast");
@@ -325,10 +327,10 @@
         const data=await response.json().catch(()=>({}));
         if(!response.ok||!data.answer)throw new Error(data.error||"Claude service unavailable.");
         document.getElementById("taraModeBadge").textContent="CLAUDE API";
-        return data.answer+"\\n\\nNote: "+(data.disclaimer||"Station data may be unverified.");
+        return data.answer+"\n\nNote: "+(data.disclaimer||"Station data may be unverified.");
       }catch(err){
         document.getElementById("taraModeBadge").textContent="LOCAL FALLBACK";
-        return taraAnswer(query)+"\\n\\nClaude could not be reached; I used the local demo response instead. "+(err&&err.message?err.message:"Check the serverless endpoint configuration.");
+        return taraAnswer(query)+"\n\nClaude could not be reached; I used the local demo response instead. "+(err&&err.message?err.message:"Check the serverless endpoint configuration.");
       }
     }
     document.getElementById("chatForm").addEventListener("submit",async e=>{
