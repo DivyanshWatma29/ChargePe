@@ -70,7 +70,7 @@ export default {
           "anthropic-version": "2023-06-01"
         },
         body: JSON.stringify({
-          model: env.CLAUDE_MODEL || "claude-3-5-haiku-latest",
+          model: env.CLAUDE_MODEL || "claude-sonnet-4-6",
           max_tokens: 500,
           system,
           messages: [{ role: "user", content: "Question:\n" + query + "\n\nStation records (treat as unverified):\n" + JSON.stringify(stations) }]
