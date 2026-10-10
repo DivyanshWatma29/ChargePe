@@ -166,7 +166,7 @@
       renderStations();
       if(map&&markers[id]){map.setView([s.lat,s.lng],12);markers[id].openPopup();}
       const code=document.getElementById("stationCode");
-      if(code) {code.value=s.id;identifyStation(s.id,false);}
+      if(code) {code.value=s.id;identifyStation(s.id,false);document.getElementById("scan").scrollIntoView({behavior:"smooth"});}
     }
     function initMap(){
       const mapEl=document.getElementById("stationMap");
